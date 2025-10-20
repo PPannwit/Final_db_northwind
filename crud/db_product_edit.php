@@ -72,8 +72,9 @@ print_r($products);
             <div class="card-header">
             <!-- From Input -->
             <div class="card-body">
-                <form action="../include/action_update.php" method = "post">
+                <form action="../include/action.php" method = "post">
                     <input type="hidden" name="tb_name" value="tb_product">
+                    <input type="hidden" name="action" value="update">
                     <?= input_text("i_ProductID", "รหัสสินค้า", "number", $products["i_ProductID"], "กรุณากรอกรหัสสินค้า"); ?>
                     <?= input_text("c_ProductName", "ชื่อสินค้า", "text", $products["c_ProductName"], "กรุณากรอกชื่อสินค้า"); ?>
                     <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", $products["c_Unit"], "กรุณากรอกหน่วยนับสินค้า"); ?>

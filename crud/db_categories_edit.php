@@ -72,7 +72,7 @@ print_r($categories);
             <div class="card-header">
             <!-- From Input -->
             <div class="card-body">
-                <form action="../include/action_update.php" method = "post">
+                <form action="../include/action.php" method = "post">
                     <input type="hidden" name="tb_name" value="tb_categories">
                     <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $categories["i_CategoryID"], "กรุณากรอกรหัสหมวดหมู่"); ?>
                     <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", $categories["c_CategoryName"], "กรุณากรอกชื่อหมวดหมู่"); ?>

@@ -71,7 +71,7 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <form action="../include/action_update.php" method="post">
+                    <form action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_categories">
                         <input type="hidden" name="action" value="insert">
                         <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $NewID, "กรุณากรอกรหัสหมวดหมู่",true); ?>

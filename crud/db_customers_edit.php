@@ -72,8 +72,9 @@ print_r($customer);
             <div class="card-header">
             <!-- From Input -->
             <div class="card-body">
-                <form action="../include/action_update.php" method = "post">
+                <form action="../include/action.php" method = "post">
                     <input type="hidden" name="tb_name" value="tb_customers">
+                    <input type="hidden" name="action" value="update">
                     <?= input_text("i_CustomerID", "รหัสลูกค้า", "number", $customer["i_CustomerID"], "กรุณากรอกรหัสลูกค้า"); ?>
                     <?= input_text("c_CustomerName", "ชื่อลูกค้า", "text", $customer["c_CustomerName"], "กรุณากรอกชื่อลูกค้า"); ?>
                     <?= input_dropdown($pdo,"i_SupplierID","ขนส่งสินค้า","tb_suppliers","i_SupplierID","c_SupplierName",$customer["i_SupplierID"]) ?>
