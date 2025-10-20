@@ -71,7 +71,71 @@ switch ($tbName) {
         //code
         break;
 
-        
+    case 'tb_customers':
+        switch ($action) {
+            case 'insert':
+                $sql = "INSERT INTO tb_customers (c_customername, c_contactname, c_address, c_city, c_postalcode, c_country) 
+                        VALUES (:c_customername, :c_contactname, :c_address, :c_city, :c_postalcode, :c_country)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':c_customername', $_POST['c_customername'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_contactname', $_POST['c_contactname'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_address', $_POST['c_address'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_city', $_POST['c_city'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_postalcode', $_POST['c_postalcode'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_country', $_POST['c_country'], PDO::PARAM_STR);
+
+                try {
+                    $stmt->execute();
+                    echo "New record created successfully";
+                    header("Location: ../db_customers_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'update':
+                $sql = "UPDATE tb_customers SET 
+                            c_customername = :c_customername, 
+                            c_contactname = :c_contactname, 
+                            c_address = :c_address, 
+                            c_city = :c_city, 
+                            c_postalcode = :c_postalcode, 
+                            c_country = :c_country 
+                        WHERE i_customerid = :i_customerid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':c_customername', $_POST['c_customername'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_contactname', $_POST['c_contactname'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_address', $_POST['c_address'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_city', $_POST['c_city'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_postalcode', $_POST['c_postalcode'], PDO::PARAM_STR);
+                $stmt->bindValue(':c_country', $_POST['c_country'], PDO::PARAM_STR);
+                $stmt->bindValue(':i_customerid', $_POST['i_customerid'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records UPDATED successfully";
+                    header("Location: ../db_customers_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'delete':
+                $sql = "DELETE FROM tb_customers WHERE i_customerid = :i_customerid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':i_customerid', $_POST['i_customerid'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records DELETED successfully";
+                    header("Location: ../db_customers_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+        }
+        break;
+
     default:
         //code block
         break;

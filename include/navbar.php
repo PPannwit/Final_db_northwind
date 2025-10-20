@@ -56,7 +56,7 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Products</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item " href="db_product_search.php"><i class="bi bi-search"></i>&nbsp;&nbsp;&nbsp;ค้นหาสินค้า</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-plus-circle"></i>&nbsp;&nbsp;&nbsp;เพิ่มสินค้า</a></li>
+                            <li><a class="dropdown-item" href="crud/db_product_insert.php"><i class="bi bi-plus-circle"></i>&nbsp;&nbsp;&nbsp;เพิ่มสินค้า</a></li>
                         </ul>
                     </li>
 

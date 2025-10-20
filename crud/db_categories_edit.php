@@ -74,6 +74,7 @@ print_r($categories);
             <div class="card-body">
                 <form action="../include/action.php" method = "post">
                     <input type="hidden" name="tb_name" value="tb_categories">
+                    <input type="hidden" name="action" value="update">
                     <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $categories["i_CategoryID"], "กรุณากรอกรหัสหมวดหมู่"); ?>
                     <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", $categories["c_CategoryName"], "กรุณากรอกชื่อหมวดหมู่"); ?>
                     <?= input_dropdown($pdo,"i_SupplierID","ขนส่งสินค้า","tb_suppliers","i_SupplierID","c_SupplierName",$categories["i_SupplierID"]) ?>

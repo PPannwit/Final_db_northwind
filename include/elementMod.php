@@ -31,7 +31,7 @@ function input_dropdown($pdo, $elementName, $strLabel, $tbName, $fieldID, $field
    </div>";
 }
 
-function dropdown_db($pdo, $elementName, $tbName, $fieldId, $fieldName)
+function dropdown_db($pdo, $elementName, $tbName, $fieldId, $fieldName, $elementValue)
 {
     $sql = "SELECT DISTINCT $fieldId as id , $fieldName as name from $tbName";
 
@@ -45,7 +45,8 @@ function dropdown_db($pdo, $elementName, $tbName, $fieldId, $fieldName)
     foreach ($products as $product) {
         $id = htmlspecialchars($product['id']);
         $name = htmlspecialchars($product['name']);
-        echo "<option value=\"$id\">$name</option>";
+        $otp = ($id == $elementValue) ? "selected" : "";
+        echo "<option value=\"$id\" $otp>$name</option>";
     }
     echo "</select>";
 }

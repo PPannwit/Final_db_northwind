@@ -65,26 +65,25 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
+    <?php require_once '../include/navbar.php'; ?>
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+        <div class="card w-75">
             <!-- ชื่อหน้าจอ -->
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <form action="../include/action.php" method="post">
-                        <input type="hidden" name="tb_name" value="tb_product">
+                    <h2 class="text-center">เพิ่มข้อมูลสินค้า </h2>
+                    <form action="../include/action_update.php" method="post">
+                        <input type="hidden" name="tb_name" value="tb_products">
                         <input type="hidden" name="action" value="insert">
-                        <?= input_text("i_ProductID", "รหัสสินค้า", "number", $NewID, "กรุณากรอกรหัสสินค้า",true); ?>
                         <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
                         <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", null, "กรุณากรอกหน่วยนับสินค้า"); ?>
                         <?= input_text("i_Price", "ราคาสินค้า", "text", null, "กรุณากรอกราคาสินค้า"); ?>
                         <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
-                        <?= input_dropdown($pdo, "i_SupplierID", "ขนส่งสินค้า", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
+                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มสินค้า</button></div>
                     </form>
                     <!-- Button Action -->
-                    <div class="card-footer">
-                    </div>
                 </div>
 </body>
 

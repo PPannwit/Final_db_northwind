@@ -97,13 +97,12 @@ include_once 'include/elementMod.php';
                                     <!-- <input type="text" class="form-control" placeholder="หมวดหมู่สินค้าที่ค้นหา" name="cond_catid"> -->
                                     <?php
                                     // dropdown_db($pdo,"cond_catid","tb_categories","i_CategoryID","c_CategoryName");
-                                    dropdown_db($pdo, "cond_catid", "tb_suppliers", "i_SupplierID", "c_SupplierName");
-
+                                    dropdown_db($pdo, "cond_catid", "tb_suppliers", "i_SupplierID", "c_SupplierName", $param_catid);
                                     ?>
 
                                 </div>
                                 <div class="col-5">
-                                    <input type="number" class="form-control" placeholder="ราคาสินค้าที่ค้นหา" name="cond_price">
+                                    <input type="number" class="form-control" placeholder="ราคาสินค้าที่ค้นหา" name="cond_price" value="<?php echo $param_price; ?>">
                                 </div>
                                 <div class="col-2 d-grid">
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;&nbsp;ค้นหาข้อมูล</button>
