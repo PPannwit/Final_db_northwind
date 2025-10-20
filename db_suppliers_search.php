@@ -40,4 +40,5 @@ include_once 'include/connDB.php';
 
 </body>
 
-</html>
+</html> 
+<!-- หวัดดี -->
