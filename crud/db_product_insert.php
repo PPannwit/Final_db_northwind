@@ -12,13 +12,11 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>เพิ่มข้อมูลสินค้า</title> 
 
-    <!-- BS5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- GG Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -36,56 +34,34 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
             color: white;
         }
     </style>
-    <script>
-        function EditData(pid) {
-            console.log("Edit Product ID : " + pid);
-            const form = document.createElement('form');
-            form.m
-            form.method = 'POST';
-            form.action = './crud/db_product_edit.php';
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'pid';
-            input.value = pid;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-
-            // form.remove();
-
-
-            // Example of what the form looks like
-            // <form action="./crud/db_product_edit.php" method="POST">
-            //      <input type="hidden" name="pid" value="pid">
-            // </form>
-        }
-    </script>
-</head>
+    </head>
 
 <body>
     <?php require_once '../include/navbar.php'; ?>
     <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
         <div class="card w-75">
-            <!-- ชื่อหน้าจอ -->
             <div class="card-header">
-                <!-- From Input -->
-                <div class="card-body">
-                    <h2 class="text-center">เพิ่มข้อมูลสินค้า</h2>
-                    <form action="../include/action.php" method="post">
-                        <input type="hidden" name="tb_name" value="tb_products">
-                        <input type="hidden" name="action" value="insert">
-                        <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
-                        <?= input_text("c_Description", "รายละเอียด", "text", null, "กรุณากรอกรายละเอียด"); ?>
-                        <?= input_text("c_ContactTitle", "ตำแหน่งผู้ติดต่อ", "text", null, "กรุณากรอกตำแหน่งผู้ติดต่อ"); ?>
-                        <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
-                        <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
-                        <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
-                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่ม</button></div>
-                    </form>
-                    <!-- Button Action -->
-                </div>
-</body>
+                <h2 class="text-center mb-0">เพิ่มข้อมูลสินค้า</h2>
+            </div>
+            <div class="card-body">
+                <form action="../include/action.php" method="post">
+                    <input type="hidden" name="tb_name" value="tb_products">
+                    <input type="hidden" name="action" value="insert">
+                    
+                    <?= input_text("i_ProductID", "รหัสสินค้า", "number", $NewID, "รหัสสินค้าอัตโนมัติ", true); // true = readonly ?>
+                    <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
+                    
+                    <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
+                    
+                    <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
+                    
+                    <?= input_text("c_Unit", "หน่วยนับ", "text", null, "เช่น 10 boxes x 20 bags"); ?>
+                    <?= input_text("i_Price", "ราคา", "number", null, "กรุณากรอกราคา (ตัวเลข)"); ?>
 
+                    <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่ม</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
