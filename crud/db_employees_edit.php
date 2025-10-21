@@ -98,7 +98,7 @@ $products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p class="mb-2">คุณต้องการบันทึกการเปลี่ยนแปลงข้อมูลหมวดหมู่ใช่หรือไม่?</p>
+                                            <p class="mb-2">คุณต้องการบันทึกการเปลี่ยนแปลงข้อมูลพนักงานใช่หรือไม่?</p>
                                             <div class="small text-muted">ตรวจสอบข้อมูลให้ถูกต้องก่อนกด "ยืนยัน"</div>
                                         </div>
                                         <div class="modal-footer">
