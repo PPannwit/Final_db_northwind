@@ -84,10 +84,9 @@ $products = getEdit($pdo, 'tb_suppliers', 'i_SupplierID', $_POST['pid']);
                         <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", $products["i_CategoryID"]) ?>
                         <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", $products["i_SupplierID"]) ?>
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">อัปเดตข้อมูล</button>
-                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
                     </form>
-                    <!-- Button Action -->
                 </div>
             </div>
         </div>

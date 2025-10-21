@@ -3,8 +3,8 @@ include_once '../include/connDB.php';
 include_once '../include/funcMod.php';
 include_once '../include/elementMod.php';
 
-$categories = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_POST['pid']);
-print_r($categories);
+$products = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_POST['pid']);
+// print_r($products);
 
 ?>
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ print_r($categories);
     </style>
     <script>
         function EditData(pid) {
-            console.log("Edit Category ID : " + pid);
+            console.log("Edit Categories ID : " + pid);
             const form = document.createElement('form');
             form.m
             form.method = 'POST';
@@ -66,24 +66,31 @@ print_r($categories);
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
+    <?php require_once '../include/navbar.php'; ?>
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+        <div class="card w-75">
             <!-- ชื่อหน้าจอ -->
             <div class="card-header">
-            <!-- From Input -->
-            <div class="card-body">
-                <form action="../include/action.php" method = "post">
-                    <input type="hidden" name="tb_name" value="tb_categories">
-                    <input type="hidden" name="action" value="update">
-                    <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $categories["i_CategoryID"], "กรุณากรอกรหัสหมวดหมู่"); ?>
-                    <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", $categories["c_CategoryName"], "กรุณากรอกชื่อหมวดหมู่"); ?>
-                    <?= input_dropdown($pdo,"i_SupplierID","ขนส่งสินค้า","tb_suppliers","i_SupplierID","c_SupplierName",$categories["i_SupplierID"]) ?>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                <!-- Button Action -->
-                <div class="card-footer">
+                <!-- From Input -->
+                <div class="card-body">
+                    <h2 class="text-center">แก้ไขข้อมูลหมวดหมู่</h2>
+                    <form action="../include/action.php" method="post">
+                        <input type="hidden" name="tb_name" value="tb_categories">
+                        <input type="hidden" name="action" value="update">
+                        <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $products["i_CategoryID"], "กรุณากรอกรหัสหมวดหมู่", true); ?>
+                        <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", $products["c_CategoryName"], "กรุณากรอกชื่อหมวดหมู่"); ?>
+                        <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", $products["c_Unit"], "กรุณากรอกหน่วยนับสินค้า"); ?>
+                        <?= input_text("i_Price", "ราคาสินค้า", "text", $products["i_Price"], "กรุณากรอกราคาสินค้า"); ?>
+                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", $products["i_CategoryID"]) ?>
+                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", $products["i_SupplierID"]) ?>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
 </body>
 
 </html>

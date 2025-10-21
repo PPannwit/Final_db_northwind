@@ -37,8 +37,8 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
         }
     </style>
     <script>
-        function EditData(pid) {
-            console.log("Edit Employee ID : " + pid);
+        function EditData(eid) {
+            console.log("Edit Employee ID : " + eid);
             const form = document.createElement('form');
             form.m
             form.method = 'POST';
@@ -72,14 +72,17 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <h2 class="text-center">เพิ่มข้อมูลพนักงาน</h2>
+                    <h2 class="text-center">เพิ่มพนักงาน</h2>
                     <form action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_employees">
                         <input type="hidden" name="action" value="insert">
-                        <?= input_text("c_EmployeeName", "ชื่อพนักงาน", "text", null, "กรุณากรอกชื่อพนักงาน"); ?>
-                        <?= input_text("c_Position", "ตำแหน่ง", "text", null, "กรุณากรอกตำแหน่ง"); ?>
-                        <?= input_text("i_Salary", "เงินเดือน", "text", null, "กรุณากรอกเงินเดือน"); ?>
-                        <?= input_dropdown($pdo, "i_DepartmentID", "แผนก", "tb_departments", "i_DepartmentID", "c_DepartmentName", null) ?>
+                        <?= input_text("c_LastName", "นามสกุล", "text", null, "กรุณากรอกนามสกุล"); ?>
+                        <?= input_text("c_FirstName", "ชื่อ", "text", null, "กรุณากรอกชื่อ"); ?>
+                        <?= input_text("c_BirthDate", "วันเกิด", "text", null, "กรุณากรอกวันเกิด"); ?>
+                        <?= input_text("c_ContactTitle", "ตำแหน่งผู้ติดต่อ", "text", null, "กรุณากรอกตำแหน่งผู้ติดต่อ"); ?>
+                        <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
+                        <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
+                        <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
                         <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มพนักงาน</button></div>
                     </form>
                     <!-- Button Action -->

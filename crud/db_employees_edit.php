@@ -74,19 +74,19 @@ $products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
                 <!-- From Input -->
                 <div class="card-body">
                     <h2 class="text-center">แก้ไขข้อมูลพนักงาน</h2>
-                    <form action="../include/action_update.php" method="post">
+                    <form action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_employees">
                         <input type="hidden" name="action" value="update">
                         <?= input_text("i_EmployeeID", "รหัสพนักงาน", "number", $products["i_EmployeeID"], "กรุณากรอกรหัสพนักงาน", true); ?>
                         <?= input_text("c_EmployeeName", "ชื่อพนักงาน", "text", $products["c_EmployeeName"], "กรุณากรอกชื่อพนักงาน"); ?>
-                        <?= input_text("c_Position", "ตำแหน่ง", "text", $products["c_Position"], "กรุณากรอกตำแหน่ง"); ?>
-                        <?= input_text("i_Salary", "เงินเดือน", "text", $products["i_Salary"], "กรุณากรอกเงินเดือน"); ?>
-                        <?= input_dropdown($pdo, "i_DepartmentID", "แผนก", "tb_departments", "i_DepartmentID", "c_DepartmentName", $products["i_DepartmentID"]) ?>
+                        <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", $products["c_Unit"], "กรุณากรอกหน่วยนับสินค้า"); ?>
+                        <?= input_text("i_Price", "ราคาสินค้า", "text", $products["i_Price"], "กรุณากรอกราคาสินค้า"); ?>
+                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", $products["i_CategoryID"]) ?>
+                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", $products["i_SupplierID"]) ?>
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">อัปเดตข้อมูล</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
-                    <!-- Button Action -->
                 </div>
             </div>
         </div>
