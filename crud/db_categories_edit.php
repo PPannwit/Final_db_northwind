@@ -74,7 +74,7 @@ $products = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_POST['pid']);
                 <!-- From Input -->
                 <div class="card-body">
                     <h2 class="text-center">แก้ไขข้อมูลหมวดหมู่</h2>
-                    <form action="../include/action.php" method="post">
+                    <form id="editForm" action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_categories">
                         <input type="hidden" name="action" value="update">
                         <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $products["i_CategoryID"], "กรุณากรอกรหัสหมวดหมู่", true); ?>
@@ -84,8 +84,35 @@ $products = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_POST['pid']);
                         <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", $products["i_CategoryID"]) ?>
                         <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", $products["i_SupplierID"]) ?>
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#confirmModal">
+                                บันทึกข้อมูล
+                            </button>
                         </div>
+                    </form>
+                    <!-- Confirmation Modal -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content shadow-lg border-0">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="confirmModalLabel">ยืนยันการบันทึก</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="mb-2">คุณต้องการบันทึกการเปลี่ยนแปลงข้อมูลหมวดหมู่ใช่หรือไม่?</p>
+                                    <div class="small text-muted">ตรวจสอบข้อมูลให้ถูกต้องก่อนกด "ยืนยัน"</div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">ยกเลิก</button>
+                                    <button id="confirmSaveBtn" type="button"
+                                        class="btn btn-primary">ยืนยันและบันทึก</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </form>
                 </div>
             </div>
@@ -94,3 +121,14 @@ $products = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_POST['pid']);
 </body>
 
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmBtn = document.getElementById('confirmSaveBtn');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function () {
+                const form = document.getElementById('editForm');
+                if (form) form.submit();
+            });
+        }
+    });
+</script>
