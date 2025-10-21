@@ -82,7 +82,7 @@ $NewID = getNewID($pdo, "tb_customers", "i_CustomerID");
                         <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
                         <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
                         <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
-                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มลูกค้า</button></div>
+                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่ม</button></div>
                     </form>
                     <!-- Button Action -->
                 </div>

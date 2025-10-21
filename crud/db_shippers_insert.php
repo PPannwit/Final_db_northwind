@@ -81,7 +81,7 @@ $NewID = getNewID($pdo, "tb_shippers", "i_ShipperID");
                         <?= input_text("i_Price", "ราคาสินค้า", "text", null, "กรุณากรอกราคาสินค้า"); ?>
                         <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
                         <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
-                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มผู้จัดส่ง</button></div>
+                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่ม</button></div>
                     </form>
                     <!-- Button Action -->
                 </div>

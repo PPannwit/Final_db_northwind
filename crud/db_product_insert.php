@@ -72,7 +72,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <h2 class="text-center">เพิ่มสินค้า</h2>
+                    <h2 class="text-center">เพิ่มข้อมูลสินค้า</h2>
                     <form action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_products">
                         <input type="hidden" name="action" value="insert">
@@ -82,7 +82,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
                         <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
                         <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
                         <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
-                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มสินค้า</button></div>
+                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่ม</button></div>
                     </form>
                     <!-- Button Action -->
                 </div>
