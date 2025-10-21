@@ -72,15 +72,16 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <h2 class="text-center">เพิ่มข้อมูลสินค้า </h2>
+                    <h2 class="text-center">เพิ่มสินค้า</h2>
                     <form action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_products">
                         <input type="hidden" name="action" value="insert">
                         <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
-                        <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", null, "กรุณากรอกหน่วยนับสินค้า"); ?>
-                        <?= input_text("i_Price", "ราคาสินค้า", "text", null, "กรุณากรอกราคาสินค้า"); ?>
-                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
-                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
+                        <?= input_text("c_Description", "รายละเอียด", "text", null, "กรุณากรอกรายละเอียด"); ?>
+                        <?= input_text("c_ContactTitle", "ตำแหน่งผู้ติดต่อ", "text", null, "กรุณากรอกตำแหน่งผู้ติดต่อ"); ?>
+                        <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
+                        <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
+                        <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
                         <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มสินค้า</button></div>
                     </form>
                     <!-- Button Action -->

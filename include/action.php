@@ -1,5 +1,6 @@
 <?php
 include_once 'connDB.php';
+include_once './funcMod.php';
 
 print_r($_POST);
 
@@ -53,17 +54,17 @@ switch ($tbName) {
                     echo "Error: " . $e->getMessage();
                 }
                 break;
-                
+
             case 'delete':
                 $sql = "DELETE FROM tb_products WHERE i_ProductID = :param_pid";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindValue(':param_pid', $_POST['i_ProductID'], PDO::PARAM_INT);
-                
-                try{
+
+                try {
                     $stmt->execute();
                     echo $stmt->rowCount() . " records DELETED successfully";
                     header("Location: ../db_product_search.php");
-                } catch(PDOException $e){
+                } catch (PDOException $e) {
                     echo "Error: " . $e->getMessage();
                 }
                 break;
@@ -73,17 +74,15 @@ switch ($tbName) {
 
     case 'tb_customers':
         switch ($action) {
-            case 'insert':
-                $sql = "INSERT INTO tb_customers (c_customername, c_contactname, c_address, c_city, c_postalcode, c_country) 
-                        VALUES (:c_customername, :c_contactname, :c_address, :c_city, :c_postalcode, :c_country)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(':c_customername', $_POST['c_customername'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_contactname', $_POST['c_contactname'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_address', $_POST['c_address'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_city', $_POST['c_city'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_postalcode', $_POST['c_postalcode'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_country', $_POST['c_country'], PDO::PARAM_STR);
 
+            case 'insert':
+                $sql = "INSERT INTO tb_customers (c_CompanyName, c_ContactName, c_ContactTitle, c_Country) 
+                        VALUES (:param_cname, :param_contact, :param_title, :param_country)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_cname', $_POST['c_CompanyName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_contact', $_POST['c_ContactName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_title', $_POST['c_ContactTitle'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_country', $_POST['c_Country'], PDO::PARAM_STR);
                 try {
                     $stmt->execute();
                     echo "New record created successfully";
@@ -95,21 +94,18 @@ switch ($tbName) {
 
             case 'update':
                 $sql = "UPDATE tb_customers SET 
-                            c_customername = :c_customername, 
-                            c_contactname = :c_contactname, 
-                            c_address = :c_address, 
-                            c_city = :c_city, 
-                            c_postalcode = :c_postalcode, 
-                            c_country = :c_country 
-                        WHERE i_customerid = :i_customerid";
+                    c_CompanyName = :param_cname , 
+                    c_ContactName  = :param_contact , 
+                    c_ContactTitle  = :param_title , 
+                    c_Country        = :param_country
+                WHERE tb_customers.i_CustomerID = :param_cid";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(':c_customername', $_POST['c_customername'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_contactname', $_POST['c_contactname'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_address', $_POST['c_address'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_city', $_POST['c_city'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_postalcode', $_POST['c_postalcode'], PDO::PARAM_STR);
-                $stmt->bindValue(':c_country', $_POST['c_country'], PDO::PARAM_STR);
-                $stmt->bindValue(':i_customerid', $_POST['i_customerid'], PDO::PARAM_INT);
+                $stmt->bindValue(':param_cname', $_POST['c_CompanyName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_contact', $_POST['c_ContactName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_title', $_POST['c_ContactTitle'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_country', $_POST['c_Country'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_price', $_POST['i_Price'], PDO::PARAM_INT);
+                $stmt->bindValue(':param_pid', $_POST['i_ProductID'], PDO::PARAM_INT);
 
                 try {
                     $stmt->execute();
@@ -121,9 +117,9 @@ switch ($tbName) {
                 break;
 
             case 'delete':
-                $sql = "DELETE FROM tb_customers WHERE i_customerid = :i_customerid";
+                $sql = "DELETE FROM tb_customers WHERE i_CustomerID = :param_cid";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindValue(':i_customerid', $_POST['i_customerid'], PDO::PARAM_INT);
+                $stmt->bindValue(':param_cid', $_POST['i_CustomerID'], PDO::PARAM_INT);
 
                 try {
                     $stmt->execute();
@@ -134,6 +130,169 @@ switch ($tbName) {
                 }
                 break;
         }
+        //code
+        break;
+
+        case 'tb_categories':
+        switch ($action) {
+
+            case 'insert':
+                $sql = "INSERT INTO tb_categories (c_CategoryName, c_Description) 
+                        VALUES (:param_name, :param_description)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_name', $_POST['c_CategoryName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_description', $_POST['c_Description'], PDO::PARAM_STR);
+                try {
+                    $stmt->execute();
+                    echo "New record created successfully";
+                    header("Location: ../db_categories_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'update':
+                $sql = "UPDATE tb_categories SET 
+                    c_CategoryName = :param_name , 
+                    c_Description  = :param_description
+                WHERE tb_categories.i_CategoryID = :param_cid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_name', $_POST['c_CategoryName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_description', $_POST['c_Description'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_cid', $_POST['i_CategoryID'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records UPDATED successfully";
+                    header("Location: ../db_categories_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'delete':
+                $sql = "DELETE FROM tb_categories WHERE i_CategoryID = :param_cid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_cid', $_POST['i_CategoryID'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records DELETED successfully";
+                    header("Location: ../db_categories_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+        }
+        //code
+        break;
+
+        case 'tb_employees':
+        switch ($action) {
+
+            case 'insert':
+                $sql = "INSERT INTO tb_employees (c_EmployeeName, c_Title) 
+                        VALUES (:param_name, :param_title)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_name', $_POST['c_EmployeeName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_title', $_POST['c_Title'], PDO::PARAM_STR);
+                try {
+                    $stmt->execute();
+                    echo "New record created successfully";
+                    header("Location: ../db_employees_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'update':
+                $sql = "UPDATE tb_employees SET 
+                    c_EmployeeName = :param_name , 
+                    c_Title  = :param_title
+                WHERE tb_employees.i_EmployeeID = :param_cid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_name', $_POST['c_EmployeeName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_title', $_POST['c_Title'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_cid', $_POST['i_EmployeeID'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records UPDATED successfully";
+                    header("Location: ../db_employees_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'delete':
+                $sql = "DELETE FROM tb_employees WHERE i_EmployeeID = :param_cid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_cid', $_POST['i_EmployeeID'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records DELETED successfully";
+                    header("Location: ../db_employees_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+        }
+        //code
+        break;
+
+        case 'tb_shippers':
+        switch ($action) {
+
+            case 'insert':
+                $sql = "INSERT INTO tb_shippers (c_ShipperName, c_ContactName) 
+                        VALUES (:param_name, :param_contact)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_name', $_POST['c_ShipperName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_contact', $_POST['c_ContactName'], PDO::PARAM_STR);
+                try {
+                    $stmt->execute();
+                    echo "New record created successfully";
+                    header("Location: ../db_shippers_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'update':
+                $sql = "UPDATE tb_shippers SET 
+                    c_ShipperName = :param_name , 
+                    c_ContactName  = :param_contact
+                WHERE tb_shippers.i_ShipperID = :param_cid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_name', $_POST['c_ShipperName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_contact', $_POST['c_ContactName'], PDO::PARAM_STR);
+                $stmt->bindValue(':param_cid', $_POST['i_ShipperID'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records UPDATED successfully";
+                    header("Location: ../db_shippers_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+
+            case 'delete':
+                $sql = "DELETE FROM tb_shippers WHERE i_ShipperID = :param_cid";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindValue(':param_cid', $_POST['i_ShipperID'], PDO::PARAM_INT);
+
+                try {
+                    $stmt->execute();
+                    echo $stmt->rowCount() . " records DELETED successfully";
+                    header("Location: ../db_shippers_search.php");
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                break;
+        }
+        //code
         break;
 
     default:
