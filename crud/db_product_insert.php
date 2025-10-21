@@ -73,7 +73,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
                 <!-- From Input -->
                 <div class="card-body">
                     <h2 class="text-center">เพิ่มข้อมูลสินค้า </h2>
-                    <form action="../include/action_update.php" method="post">
+                    <form action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_products">
                         <input type="hidden" name="action" value="insert">
                         <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>

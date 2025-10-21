@@ -3,7 +3,8 @@ include_once '../include/connDB.php';
 include_once '../include/funcMod.php';
 include_once '../include/elementMod.php';
 
-$NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
+$products = getEdit($pdo, 'tb_suppliers', 'i_SupplierID', $_POST['pid']);
+// print_r($products);
 
 ?>
 <!DOCTYPE html>
@@ -38,11 +39,11 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
     </style>
     <script>
         function EditData(pid) {
-            console.log("Edit Category ID : " + pid);
+            console.log("Edit Supplier ID : " + pid);
             const form = document.createElement('form');
             form.m
             form.method = 'POST';
-            form.action = './crud/db_categories_edit.php';
+            form.action = './crud/db_suppliers_edit.php';
 
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -72,20 +73,25 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <h2 class="text-center">เพิ่มหมวดหมู่</h2>
-                    <form action="../include/action.php" method="post">
-                        <input type="hidden" name="tb_name" value="tb_categories">
-                        <input type="hidden" name="action" value="insert">
-                        <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", null, "กรุณากรอกชื่อหมวดหมู่"); ?>
-                        <?= input_text("c_Description", "รายละเอียด", "text", null, "กรุณากรอกรายละเอียด"); ?>
-                        <?= input_text("c_ContactTitle", "ตำแหน่งผู้ติดต่อ", "text", null, "กรุณากรอกตำแหน่งผู้ติดต่อ"); ?>
-                        <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
-                        <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
-                        <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
-                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มหมวดหมู่</button></div>
+                    <h2 class="text-center">แก้ไขข้อมูลผู้จัดจำหน่าย</h2>
+                    <form action="../include/action_update.php" method="post">
+                        <input type="hidden" name="tb_name" value="tb_suppliers">
+                        <input type="hidden" name="action" value="update">
+                        <?= input_text("i_SupplierID", "รหัสผู้จัดจำหน่าย", "number", $products["i_SupplierID"], "กรุณากรอกรหัสผู้จัดจำหน่าย", true); ?>
+                        <?= input_text("c_SupplierName", "ชื่อผู้จัดจำหน่าย", "text", $products["c_SupplierName"], "กรุณากรอกชื่อผู้จัดจำหน่าย"); ?>
+                        <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", $products["c_Unit"], "กรุณากรอกหน่วยนับสินค้า"); ?>
+                        <?= input_text("i_Price", "ราคาสินค้า", "text", $products["i_Price"], "กรุณากรอกราคาสินค้า"); ?>
+                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", $products["i_CategoryID"]) ?>
+                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", $products["i_SupplierID"]) ?>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">อัปเดตข้อมูล</button>
+                        </div>
                     </form>
                     <!-- Button Action -->
                 </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

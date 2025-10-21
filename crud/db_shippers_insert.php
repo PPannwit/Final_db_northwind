@@ -3,7 +3,7 @@ include_once '../include/connDB.php';
 include_once '../include/funcMod.php';
 include_once '../include/elementMod.php';
 
-$NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
+$NewID = getNewID($pdo, "tb_shippers", "i_ShipperID");
 
 ?>
 <!DOCTYPE html>
@@ -38,11 +38,11 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
     </style>
     <script>
         function EditData(pid) {
-            console.log("Edit Category ID : " + pid);
+            console.log("Edit Shipper ID : " + pid);
             const form = document.createElement('form');
             form.m
             form.method = 'POST';
-            form.action = './crud/db_categories_edit.php';
+            form.action = './crud/db_shippers_edit.php';
 
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -72,17 +72,16 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
-                    <h2 class="text-center">เพิ่มหมวดหมู่</h2>
+                    <h2 class="text-center">เพิ่มข้อมูลผู้จัดส่ง</h2>
                     <form action="../include/action.php" method="post">
-                        <input type="hidden" name="tb_name" value="tb_categories">
+                        <input type="hidden" name="tb_name" value="tb_shippers">
                         <input type="hidden" name="action" value="insert">
-                        <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", null, "กรุณากรอกชื่อหมวดหมู่"); ?>
-                        <?= input_text("c_Description", "รายละเอียด", "text", null, "กรุณากรอกรายละเอียด"); ?>
-                        <?= input_text("c_ContactTitle", "ตำแหน่งผู้ติดต่อ", "text", null, "กรุณากรอกตำแหน่งผู้ติดต่อ"); ?>
-                        <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
-                        <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
-                        <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
-                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มหมวดหมู่</button></div>
+                        <?= input_text("c_ShipperName", "ชื่อผู้จัดส่ง", "text", null, "กรุณากรอกชื่อผู้จัดส่ง"); ?>
+                        <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", null, "กรุณากรอกเบอร์โทรศัพท์"); ?>
+                        <?= input_text("i_Price", "ราคาสินค้า", "text", null, "กรุณากรอกราคาสินค้า"); ?>
+                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
+                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
+                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มผู้จัดส่ง</button></div>
                     </form>
                     <!-- Button Action -->
                 </div>

@@ -3,6 +3,8 @@ include_once '../include/connDB.php';
 include_once '../include/funcMod.php';
 include_once '../include/elementMod.php';
 
+$NewID = getNewID($pdo, "tb_customers", "i_CustomerID");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +42,7 @@ include_once '../include/elementMod.php';
             const form = document.createElement('form');
             form.m
             form.method = 'POST';
-            form.action = './crud/db_product_edit.php';
+            form.action = './crud/db_customers_edit.php';
 
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -63,25 +65,26 @@ include_once '../include/elementMod.php';
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
+    <?php require_once '../include/navbar.php'; ?>
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+        <div class="card w-75">
             <!-- ชื่อหน้าจอ -->
             <div class="card-header">
                 <!-- From Input -->
                 <div class="card-body">
+                    <h2 class="text-center">เพิ่มข้อมูลลูกค้า </h2>
                     <form action="../include/action.php" method="post">
-                        <input type="hidden" name="tb_name" value="tb_product">
+                        <input type="hidden" name="tb_name" value="tb_customers">
                         <input type="hidden" name="action" value="insert">
-                        <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
-                        <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", null, "กรุณากรอกหน่วยนับสินค้า"); ?>
-                        <?= input_text("i_Price", "ราคาสินค้า", "text", null, "กรุณากรอกราคาสินค้า"); ?>
-                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
-                        <?= input_dropdown($pdo, "i_SupplierID", "ขนส่งสินค้า", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <?= input_text("c_CustomerName", "ชื่อลูกค้า", "text", null, "กรุณากรอกชื่อลูกค้า"); ?>
+                        <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", null, "กรุณากรอกชื่อผู้ติดต่อ"); ?>
+                        <?= input_text("c_ContactTitle", "ตำแหน่งผู้ติดต่อ", "text", null, "กรุณากรอกตำแหน่งผู้ติดต่อ"); ?>
+                        <?= input_text("c_Address", "ที่อยู่", "text", null, "กรุณากรอกที่อยู่"); ?>
+                        <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกเมือง"); ?>
+                        <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกประเทศ"); ?>
+                        <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มลูกค้า</button></div>
                     </form>
                     <!-- Button Action -->
-                    <div class="card-footer">
-                    </div>
                 </div>
 </body>
 
