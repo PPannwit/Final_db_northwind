@@ -54,13 +54,6 @@ $products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
             document.body.appendChild(form);
             form.submit();
 
-            // form.remove();
-
-
-            // Example of what the form looks like
-            // <form action="./crud/db_product_edit.php" method="POST">
-            //      <input type="hidden" name="pid" value="pid">
-            // </form>
         }
     </script>
 </head>
@@ -74,7 +67,7 @@ $products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
                 <!-- From Input -->
                 <div class="card-body">
                     <h2 class="text-center">แก้ไขข้อมูลพนักงาน</h2>
-                    <form action="../include/action.php" method="post">
+                    <form id="editForm" action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_employees">
                         <input type="hidden" name="action" value="update">
                         <?= input_text("i_EmployeeID", "รหัสพนักงาน", "number", $products["i_EmployeeID"], "กรุณากรอกรหัสพนักงาน", true); ?>

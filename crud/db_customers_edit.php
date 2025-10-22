@@ -53,14 +53,6 @@ $products = getEdit($pdo, 'tb_customers', 'i_CustomerID', $_POST['pid']);
             form.appendChild(input);
             document.body.appendChild(form);
             form.submit();
-
-            // form.remove();
-
-
-            // Example of what the form looks like
-            // <form action="./crud/db_product_edit.php" method="POST">
-            //      <input type="hidden" name="pid" value="pid">
-            // </form>
         }
     </script>
 </head>

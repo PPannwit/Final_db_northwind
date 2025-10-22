@@ -3,42 +3,32 @@ include_once '../include/connDB.php';
 
 if (isset($_POST['confirm_delete']) && $_POST['confirm_delete'] == 'yes') {
     
-    // !! แก้ไข !!: รับค่า custid (จากฟอร์มใน Modal)
     $custid = isset($_POST['custid']) ? (int)$_POST['custid'] : null;
 
     if ($custid === null || $custid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_customers_search.php'); 
         exit;
     }
 
     try {
-        // !! แก้ไข !!: เปลี่ยน SQL (tb_customers, i_customerid)
         $sql = "DELETE FROM tb_customers WHERE i_customerid = :custid";
         $stmt = $pdo->prepare($sql);
-        // !! แก้ไข !!: ผูกค่า :custid
         $stmt->bindValue(':custid', $custid, PDO::PARAM_INT);
         $stmt->execute();
-        
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_customers_search.php');
         exit;
     } catch (PDOException $e) {
-        // !! แก้ไข !!: เปลี่ยนข้อความ Error
         echo "Error deleting customer: " . $e->getMessage();
     }
 
 } else {
     
-    // !! แก้ไข !!: รับค่า custid (จากหน้า search)
     $custid = isset($_POST['custid']) ? (int)$_POST['custid'] : 0;
 
     if ($custid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_customers_search.php');
         exit;
     }
-    // ถ้า $custid มีค่า, PHP จะทำงานต่อเพื่อแสดง HTML ด้านล่าง
 }
 ?>
 

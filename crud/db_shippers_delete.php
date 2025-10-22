@@ -3,42 +3,32 @@ include_once '../include/connDB.php';
 
 if (isset($_POST['confirm_delete']) && $_POST['confirm_delete'] == 'yes') {
     
-    // !! แก้ไข !!: รับค่า sid (Shipper ID)
     $sid = isset($_POST['sid']) ? (int)$_POST['sid'] : null;
 
     if ($sid === null || $sid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_shippers_search.php'); 
         exit;
     }
 
     try {
-        // !! แก้ไข !!: เปลี่ยน SQL (tb_shippers, i_ShipperID)
         $sql = "DELETE FROM tb_shippers WHERE i_ShipperID = :sid";
         $stmt = $pdo->prepare($sql);
-        // !! แก้ไข !!: ผูกค่า :sid
         $stmt->bindValue(':sid', $sid, PDO::PARAM_INT);
         $stmt->execute();
-        
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_shippers_search.php');
         exit;
     } catch (PDOException $e) {
-        // !! แก้ไข !!: เปลี่ยนข้อความ Error
         echo "Error deleting shipper: " . $e->getMessage();
     }
 
 } else {
     
-    // !! แก้ไข !!: รับค่า sid (จากหน้า search)
     $sid = isset($_POST['sid']) ? (int)$_POST['sid'] : 0;
 
     if ($sid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_shippers_search.php');
         exit;
     }
-    // ถ้า $sid มีค่า, PHP จะทำงานต่อเพื่อแสดง HTML ด้านล่าง
 }
 ?>
 

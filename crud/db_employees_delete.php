@@ -3,42 +3,32 @@ include_once '../include/connDB.php';
 
 if (isset($_POST['confirm_delete']) && $_POST['confirm_delete'] == 'yes') {
     
-    // !! แก้ไข !!: รับค่า eid (Employee ID)
     $eid = isset($_POST['eid']) ? (int)$_POST['eid'] : null;
 
     if ($eid === null || $eid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_employees_search.php'); 
         exit;
     }
 
     try {
-        // !! แก้ไข !!: เปลี่ยน SQL (tb_employees, i_EmployeeID)
         $sql = "DELETE FROM tb_employees WHERE i_EmployeeID = :eid";
         $stmt = $pdo->prepare($sql);
-        // !! แก้ไข !!: ผูกค่า :eid
         $stmt->bindValue(':eid', $eid, PDO::PARAM_INT);
         $stmt->execute();
-        
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_employees_search.php');
         exit;
     } catch (PDOException $e) {
-        // !! แก้ไข !!: เปลี่ยนข้อความ Error
         echo "Error deleting employee: " . $e->getMessage();
     }
 
 } else {
     
-    // !! แก้ไข !!: รับค่า eid (จากหน้า search)
     $eid = isset($_POST['eid']) ? (int)$_POST['eid'] : 0;
 
     if ($eid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_employees_search.php');
         exit;
     }
-    // ถ้า $eid มีค่า, PHP จะทำงานต่อเพื่อแสดง HTML ด้านล่าง
 }
 ?>
 

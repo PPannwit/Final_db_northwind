@@ -3,42 +3,32 @@ include_once '../include/connDB.php';
 
 if (isset($_POST['confirm_delete']) && $_POST['confirm_delete'] == 'yes') {
     
-    // !! แก้ไข !!: รับค่า pid (Product ID)
     $pid = isset($_POST['pid']) ? (int)$_POST['pid'] : null;
 
     if ($pid === null || $pid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_product_search.php'); 
         exit;
     }
 
     try {
-        // !! แก้ไข !!: เปลี่ยน SQL (tb_products, i_ProductID)
         $sql = "DELETE FROM tb_products WHERE i_ProductID = :pid";
         $stmt = $pdo->prepare($sql);
-        // !! แก้ไข !!: ผูกค่า :pid
         $stmt->bindValue(':pid', $pid, PDO::PARAM_INT);
         $stmt->execute();
-        
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_product_search.php');
         exit;
     } catch (PDOException $e) {
-        // !! แก้ไข !!: เปลี่ยนข้อความ Error
         echo "Error deleting product: " . $e->getMessage();
     }
 
 } else {
     
-    // !! แก้ไข !!: รับค่า pid (จากหน้า search)
     $pid = isset($_POST['pid']) ? (int)$_POST['pid'] : 0;
 
     if ($pid === 0) {
-        // !! แก้ไข !!: เปลี่ยน URL
         header('Location: ../db_product_search.php');
         exit;
     }
-    // ถ้า $pid มีค่า, PHP จะทำงานต่อเพื่อแสดง HTML ด้านล่าง
 }
 ?>
 

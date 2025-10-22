@@ -12,7 +12,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เพิ่มข้อมูลสินค้า</title> 
+    <title>เพิ่มข้อมูลสินค้า</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -34,7 +34,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
             color: white;
         }
     </style>
-    </head>
+</head>
 
 <body>
     <?php require_once '../include/navbar.php'; ?>
@@ -47,14 +47,10 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
                 <form action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_products">
                     <input type="hidden" name="action" value="insert">
-                    
                     <?= input_text("i_ProductID", "รหัสสินค้า", "number", $NewID, "รหัสสินค้าอัตโนมัติ", true); // true = readonly ?>
                     <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
-                    
                     <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
-                    
                     <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
-                    
                     <?= input_text("c_Unit", "หน่วยนับ", "text", null, "เช่น 10 boxes x 20 bags"); ?>
                     <?= input_text("i_Price", "ราคา", "number", null, "กรุณากรอกราคา (ตัวเลข)"); ?>
 
@@ -64,4 +60,5 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
         </div>
     </div>
 </body>
+
 </html>
