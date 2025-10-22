@@ -40,7 +40,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
     <?php require_once '../include/navbar.php'; ?>
     <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
         <div class="card w-75">
-            <div class="card-header">
+            <div class="card-body">
                 <h2 class="text-center mb-0">เพิ่มข้อมูลสินค้า</h2>
             </div>
             <div class="card-body">
@@ -54,7 +54,7 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
                     <?= input_text("c_Unit", "หน่วยนับ", "text", null, "เช่น 10 boxes x 20 bags"); ?>
                     <?= input_text("i_Price", "ราคา", "number", null, "กรุณากรอกราคา (ตัวเลข)"); ?>
 
-                    <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่ม</button></div>
+                    <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มข้อมูล</button></div>
                 </form>
             </div>
         </div>
