@@ -136,7 +136,7 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <form action="./crud/db_suppliers_edit.php" method="POST">
                                         <input type="hidden" name="sid" value="<?php echo $supplier['sid']; ?>">
-                                        <button onclick="EditSupplier(<?php echo $supplier['sid']; ?>)" type="button" class="btn btn-warning text-white bi bi-pen fs-6"></button>
+                                        <button type="submit" class="btn btn-warning text-white bi bi-pen fs-6"></button>
                                     </form>
                                 </td>
                                 <td>

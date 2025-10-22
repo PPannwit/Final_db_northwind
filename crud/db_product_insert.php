@@ -49,9 +49,6 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
                     <input type="hidden" name="action" value="insert">
                     <?= input_text("i_ProductID", "รหัสสินค้า", "number", $NewID, "รหัสสินค้าอัตโนมัติ", true); // true = readonly ?>
                     <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า"); ?>
-                    <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", null) ?>
-                    <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", null) ?>
-                    <?= input_text("c_Unit", "หน่วยนับ", "text", null, "เช่น 10 boxes x 20 bags"); ?>
                     <?= input_text("i_Price", "ราคา", "number", null, "กรุณากรอกราคา (ตัวเลข)"); ?>
 
                     <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มข้อมูล</button></div>

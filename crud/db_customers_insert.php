@@ -42,9 +42,7 @@ $NewID = getNewID($pdo, "tb_customers", "i_CustomerID");
                     <?= input_text("i_CustomerID", "รหัสลูกค้า", "number", $NewID, "รหัสลูกค้าอัตโนมัติ", true); ?>
                     <?= input_text("c_CustomerName", "ชื่อลูกค้า", "text", null, "กรุณากรอกชื่อลูกค้า"); ?>
                     <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", null, "ชื่อผู้ประสานงาน"); ?>
-                    <?= input_text("c_Address", "ที่อยู่", "text", null, "กรอกที่อยู่ลูกค้า"); ?>
                     <?= input_text("c_City", "เมือง", "text", null, "จังหวัด / เมือง"); ?>
-                    <?= input_text("c_PostalCode", "รหัสไปรษณีย์", "text", null, "กรอกรหัสไปรษณีย์"); ?>
                     <?= input_text("c_Country", "ประเทศ", "text", null, "เช่น ไทย"); ?>
 
                     <div class="text-center mt-4">

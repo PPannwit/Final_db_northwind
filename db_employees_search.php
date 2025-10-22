@@ -5,16 +5,17 @@ error_reporting(E_ALL);
 include_once 'include/connDB.php';
 include_once 'include/elementMod.php'; 
 
-$param_eid = isset($_POST['cond_eid']) && $_POST['cond_eid'] !== '' ? $_POST['cond_eid'] : '';
+
+$param_pid = isset($_POST['cond_pid']) && $_POST['cond_pid'] !== '' ? $_POST['cond_pid'] : '';
 
 $sql = "SELECT i_EmployeeID as eid, c_LastName as lastname, c_FirstName as firstname, c_BirthDate as birthdate, c_Photo as photo, c_Notes as notes
         FROM tb_employees";
 
 $params = [];
 
-if (!empty($param_eid)) {
-    $sql .= " WHERE i_EmployeeID = :param_eid";
-    $params[':param_eid'] = $param_eid;
+if (!empty($param_pid)) {
+    $sql .= " WHERE i_EmployeeID = :param_pid";
+    $params[':param_pid'] = $param_pid;
 }
 
 $sql .= " ORDER BY i_EmployeeID ASC";
@@ -51,21 +52,6 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: white;
         }
     </style>
-    <script>
-        function EditEmployee(eid) {
-            console.log("Edit Employee ID : " + eid); 
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = './crud/db_employees_edit.php'; 
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'eid';
-            input.value = eid;
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-        }
-    </script>
 </head>
 
 <body>
@@ -88,7 +74,8 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="row">
                                 <div class="col-10">
                                     <?php
-                                    dropdown_db($pdo, "cond_eid", "tb_employees", "i_EmployeeID", "c_LastName", $param_eid);
+                                    // use cond_pid so the edit page expecting 'pid' matches
+                                    dropdown_db($pdo, "cond_pid", "tb_employees", "i_EmployeeID", "c_LastName", $param_pid);
                                     ?>
                                 </div>
                                 <div class="col-2 d-grid"> <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> ค้นหาข้อมูล</button>
@@ -111,8 +98,6 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>Last Name</th>
                             <th>First Name</th>
                             <th>Birth Date</th>
-                            <th>Photo</th>
-                            <th>Notes</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -124,12 +109,10 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo htmlspecialchars($emp['lastname']); ?></td>
                                 <td><?php echo htmlspecialchars($emp['firstname']); ?></td>
                                 <td><?php echo htmlspecialchars($emp['birthdate']); ?></td>
-                                <td><?php echo htmlspecialchars($emp['photo']); ?></td>
-                                <td><?php echo htmlspecialchars($emp['notes']); ?></td>
                                 <td>
                                     <form action="./crud/db_employees_edit.php" method="POST">
                                         <input type="hidden" name="eid" value="<?php echo $emp['eid']; ?>">
-                                        <button onclick="EditEmployee(<?php echo $emp['eid']; ?>)" type="button" class="btn btn-warning text-white bi bi-pen fs-6"></button>
+                                        <button type="submit" class="btn btn-warning text-white bi bi-pen fs-6"></button>
                                     </form>
                                 </td>
                                 <td>

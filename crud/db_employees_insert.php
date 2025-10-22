@@ -42,12 +42,7 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
                     <?= input_text("i_EmployeeID", "รหัสพนักงาน", "number", $NewID, "รหัสพนักงานอัตโนมัติ", true); ?>
                     <?= input_text("c_FirstName", "ชื่อ", "text", null, "กรอกชื่อพนักงาน"); ?>
                     <?= input_text("c_LastName", "นามสกุล", "text", null, "กรอกนามสกุล"); ?>
-                    <?= input_text("c_Title", "ตำแหน่ง", "text", null, "เช่น Sales Manager"); ?>
                     <?= input_text("d_BirthDate", "วันเกิด", "date", null, ""); ?>
-                    <?= input_text("c_Address", "ที่อยู่", "text", null, "กรอกที่อยู่"); ?>
-                    <?= input_text("c_City", "เมือง", "text", null, "จังหวัด / เมือง"); ?>
-                    <?= input_text("c_Country", "ประเทศ", "text", null, "กรอกชื่อประเทศ"); ?>
-
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
                     </div>

@@ -3,8 +3,14 @@ include_once '../include/connDB.php';
 include_once '../include/funcMod.php';
 include_once '../include/elementMod.php';
 
-$products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
-// print_r($products);
+// Load employee record by pid or eid (posted from search page)
+$employee = [];
+$pid = '';
+if (isset($_POST['pid']) && $_POST['pid'] !== '') $pid = $_POST['pid'];
+if (isset($_POST['eid']) && $_POST['eid'] !== '') $pid = $_POST['eid'];
+if ($pid !== '') {
+    $employee = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $pid);
+}
 
 ?>
 <!DOCTYPE html>
@@ -37,25 +43,6 @@ $products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
             color: white;
         }
     </style>
-    <script>
-        function EditData(pid) {
-            console.log("Edit Employee ID : " + pid);
-            const form = document.createElement('form');
-            form.m
-            form.method = 'POST';
-            form.action = './crud/db_employees_edit.php';
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'pid';
-            input.value = pid;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-
-        }
-    </script>
 </head>
 
 <body>
@@ -65,17 +52,19 @@ $products = getEdit($pdo, 'tb_employees', 'i_EmployeeID', $_POST['pid']);
             <!-- ชื่อหน้าจอ -->
             <div class="card-header">
                 <!-- From Input -->
+                <h2 class="text-center">แก้ไขข้อมูลพนักงาน</h2></div>
                 <div class="card-body">
-                    <h2 class="text-center">แก้ไขข้อมูลพนักงาน</h2>
                     <form id="editForm" action="../include/action.php" method="post">
                         <input type="hidden" name="tb_name" value="tb_employees">
                         <input type="hidden" name="action" value="update">
-                        <?= input_text("i_EmployeeID", "รหัสพนักงาน", "number", $products["i_EmployeeID"], "กรุณากรอกรหัสพนักงาน", true); ?>
-                        <?= input_text("c_EmployeeName", "ชื่อพนักงาน", "text", $products["c_EmployeeName"], "กรุณากรอกชื่อพนักงาน"); ?>
-                        <?= input_text("c_Unit", "หน่วยนับสินค้า", "text", $products["c_Unit"], "กรุณากรอกหน่วยนับสินค้า"); ?>
-                        <?= input_text("i_Price", "ราคาสินค้า", "text", $products["i_Price"], "กรุณากรอกราคาสินค้า"); ?>
-                        <?= input_dropdown($pdo, "i_CategoryID", "หมวดหมู่สินค้า", "tb_categories", "i_CategoryID", "c_CategoryName", $products["i_CategoryID"]) ?>
-                        <?= input_dropdown($pdo, "i_SupplierID", "ผู้จัดจำหน่าย", "tb_suppliers", "i_SupplierID", "c_SupplierName", $products["i_SupplierID"]) ?>
+                        <?= input_text("i_EmployeeID", "รหัสพนักงาน", "number", ($employee['i_EmployeeID'] ?? ''), "กรุณากรอกรหัสพนักงาน", true); ?>
+                        <?= input_text("c_LastName", "นามสกุล", "text", ($employee['c_LastName'] ?? ''), "กรุณากรอกนามสกุล"); ?>
+                        <?= input_text("c_FirstName", "ชื่อ", "text", ($employee['c_FirstName'] ?? ''), "กรุณากรอกชื่อ"); ?>
+                        <?= input_text("c_BirthDate", "วันเกิด", "date", ($employee['c_BirthDate'] ?? ''), ""); ?>
+
+                    <!-- Array ( [i_EmployeeID] => 1 [c_LastName] => Davolio [c_FirstName] => Nancy [c_BirthDate] => 8/12/1968 [c_Photo] => EmpID1.pic [c_Notes] 
+                    => Education includes a BA in psychology from Colorado State University. She also c ) -->
+
                         <div class="text-center mt-4">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#confirmModal">

@@ -39,14 +39,14 @@ $NewID = getNewID($pdo, "tb_suppliers", "i_SupplierID");
                     <input type="hidden" name="tb_name" value="tb_suppliers">
                     <input type="hidden" name="action" value="insert">
 
-                    <?= input_text("i_SupplierID", "รหัสผู้จำหน่าย", "number", $NewID, "รหัสอัตโนมัติ", true); ?>
-                    <?= input_text("c_SupplierName", "ชื่อผู้จำหน่าย", "text", null, "กรอกชื่อผู้จำหน่าย"); ?>
-                    <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", null, "ชื่อผู้ประสานงาน"); ?>
-                    <?= input_text("c_Address", "ที่อยู่", "text", null, "กรอกที่อยู่ผู้จำหน่าย"); ?>
-                    <?= input_text("c_City", "เมือง", "text", null, "จังหวัด / เมือง"); ?>
-                    <?= input_text("c_PostalCode", "รหัสไปรษณีย์", "text", null, "กรอกรหัสไปรษณีย์"); ?>
-                    <?= input_text("c_Country", "ประเทศ", "text", null, "กรอกชื่อประเทศ"); ?>
-                    <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", null, "เช่น 0812345678"); ?>
+                <?= input_text("i_SupplierID", "รหัสผู้จัดจำหน่าย", "number", $supplier["i_SupplierID"], "รหัสผู้จัดจำหน่าย", true); ?>
+                <?= input_text("c_SupplierName", "ชื่อผู้จัดจำหน่าย", "text", $supplier["c_SupplierName"], "กรุณากรอกชื่อผู้จัดจำหน่าย"); ?>
+                <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", $supplier["c_ContactName"], "กรุณากรอกชื่อผู้ติดต่อ"); ?>
+                <?= input_text("c_City", "เมือง", "text", $supplier["c_City"], "กรุณากรอกชื่อเมือง"); ?>
+                <?= input_text("c_Country", "ประเทศ", "text", $supplier["c_Country"], "กรุณากรอกชื่อประเทศ"); ?>
+                <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", $supplier["c_Phone"], "กรุณากรอกเบอร์โทรศัพท์"); ?>
+                    <!-- Array ( [i_SupplierID] => 2 [c_SupplierName] => New Orleans Cajun Delights [c_ContactName] => Shelley Burke [c_Address] => P.O. Box 78934 [c_City] => 
+                New Orleans [c_PostalCode] => 70117 [c_Country] => USA [c_Phone] => (100) 555-4822 ) -->
 
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>

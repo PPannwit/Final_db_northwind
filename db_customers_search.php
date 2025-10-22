@@ -33,23 +33,6 @@ include_once 'include/elementMod.php';
             color: white;
         }
     </style>
-    <script>
-        function EditData(custid) {
-            console.log("Edit Customer ID : " + custid);
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = './crud/db_customers_edit.php'; 
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'custid'; 
-            input.value = custid;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-        }
-    </script>
 </head>
 
 <body>
@@ -133,7 +116,7 @@ include_once 'include/elementMod.php';
                                 <td>
                                     <form action="./crud/db_customers_edit.php" method="POST">
                                         <input type="hidden" name="custid" value="<?php echo $customer['custid']; ?>">
-                                        <button onclick="EditData(<?php echo $customer['custid']; ?>)" type="button" class="btn btn-warning text-white bi bi-pen fs-6"></button>
+                                        <button type="submit" class="btn btn-warning text-white bi bi-pen fs-6"></button>
                                     </form>
                                 </td>
                                 <td>
