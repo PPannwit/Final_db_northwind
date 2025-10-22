@@ -35,16 +35,16 @@ $NewID = getNewID($pdo, "tb_suppliers", "i_SupplierID");
                 <h2 class="mb-0" style="color: black;">เพิ่มข้อมูลผู้จำหน่าย</h2>
             </div>
             <div class="card-body">
-                <form action="../include/action.php" method="post">
+                <form class="needs-validation" novalidate action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_suppliers">
                     <input type="hidden" name="action" value="insert">
 
-                <?= input_text("i_SupplierID", "รหัสผู้จัดจำหน่าย", "number", $supplier["i_SupplierID"], "รหัสผู้จัดจำหน่าย", true); ?>
-                <?= input_text("c_SupplierName", "ชื่อผู้จัดจำหน่าย", "text", $supplier["c_SupplierName"], "กรุณากรอกชื่อผู้จัดจำหน่าย"); ?>
-                <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", $supplier["c_ContactName"], "กรุณากรอกชื่อผู้ติดต่อ"); ?>
-                <?= input_text("c_City", "เมือง", "text", $supplier["c_City"], "กรุณากรอกชื่อเมือง"); ?>
-                <?= input_text("c_Country", "ประเทศ", "text", $supplier["c_Country"], "กรุณากรอกชื่อประเทศ"); ?>
-                <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", $supplier["c_Phone"], "กรุณากรอกเบอร์โทรศัพท์"); ?>
+                <?= input_text("i_SupplierID", "รหัสผู้จัดจำหน่าย", "number", $NewID, "รหัสผู้จัดจำหน่าย", true); ?>
+                <?= input_text("c_SupplierName", "ชื่อผู้จัดจำหน่าย", "text", null, "กรุณากรอกชื่อผู้จัดจำหน่าย", false, true); ?>
+                <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", null, "กรุณากรอกชื่อผู้ติดต่อ", false, true); ?>
+                <?= input_text("c_City", "เมือง", "text", null, "กรุณากรอกชื่อเมือง", false, false); ?>
+                <?= input_text("c_Country", "ประเทศ", "text", null, "กรุณากรอกชื่อประเทศ", false, false); ?>
+                <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", null, "กรุณากรอกเบอร์โทรศัพท์", false, false); ?>
                     <!-- Array ( [i_SupplierID] => 2 [c_SupplierName] => New Orleans Cajun Delights [c_ContactName] => Shelley Burke [c_Address] => P.O. Box 78934 [c_City] => 
                 New Orleans [c_PostalCode] => 70117 [c_Country] => USA [c_Phone] => (100) 555-4822 ) -->
 
@@ -58,3 +58,19 @@ $NewID = getNewID($pdo, "tb_suppliers", "i_SupplierID");
 </body>
 
 </html>
+<script>
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

@@ -35,13 +35,13 @@ $NewID = getNewID($pdo, "tb_shippers", "i_ShipperID");
                 <h2 class="mb-0" style="color: black;">เพิ่มข้อมูลบริษัทขนส่ง</h2>
             </div>
             <div class="card-body">
-                <form action="../include/action.php" method="post">
+                <form class="needs-validation" novalidate action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_shippers">
                     <input type="hidden" name="action" value="insert">
 
                     <?= input_text("i_ShipperID", "รหัสขนส่ง", "number", $NewID, "รหัสขนส่งอัตโนมัติ", true); ?>
-                    <?= input_text("c_ShipperName", "ชื่อบริษัทขนส่ง", "text", null, "กรอกชื่อบริษัทขนส่ง"); ?>
-                    <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", null, "เช่น 0812345678"); ?>
+                    <?= input_text("c_ShipperName", "ชื่อบริษัทขนส่ง", "text", null, "กรอกชื่อบริษัทขนส่ง", false, true); ?>
+                    <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", null, "เช่น 0812345678", false, false); ?>
 
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
@@ -53,3 +53,19 @@ $NewID = getNewID($pdo, "tb_shippers", "i_ShipperID");
 </body>
 
 </html>
+<script>
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

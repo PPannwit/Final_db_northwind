@@ -58,21 +58,46 @@ include_once 'include/elementMod.php';
 
     <?php require_once 'include/navbar.php';
 
-    $param_catid = isset($_POST['cond_catid']) && $_POST['cond_catid'] !== '' ? $_POST['cond_catid'] : 1;
-    $param_price = isset($_POST['cond_price']) && $_POST['cond_price'] !== '' ? $_POST['cond_price'] : 10;
+    // Use GET so pagination links keep filters
+    $param_pid = isset($_GET['cond_pid']) && $_GET['cond_pid'] !== '' ? $_GET['cond_pid'] : '';
+    $param_price = isset($_GET['cond_price']) && $_GET['cond_price'] !== '' ? $_GET['cond_price'] : '';
 
-    $sql = "SELECT tb_products.i_ProductID as pid, tb_products.c_ProductName as pname, tb_products.i_Price as pprice
-            FROM tb_products
-            WHERE tb_products.i_CategoryID = :param_catid
-            AND tb_products.i_Price >= :param_price;";
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $pageSize = 10;
+    $offset = ($page - 1) * $pageSize;
+
+    $countSql = "SELECT COUNT(*) FROM tb_products WHERE 1=1";
+    $countParams = [];
+    if ($param_pid !== '') {
+        $countSql .= " AND i_ProductID = :param_pid";
+        $countParams[':param_pid'] = $param_pid;
+    }
+    if ($param_price !== '') {
+        $countSql .= " AND i_Price >= :param_price";
+        $countParams[':param_price'] = $param_price;
+    }
+    $countStmt = $pdo->prepare($countSql);
+    $countStmt->execute($countParams);
+    $totalRows = (int)$countStmt->fetchColumn();
+    $totalPages = $totalRows ? (int)ceil($totalRows / $pageSize) : 1;
+
+    $sql = "SELECT i_ProductID as pid, c_ProductName as pname, i_Price as pprice FROM tb_products WHERE 1=1";
+    $params = [];
+    if ($param_pid !== '') {
+        $sql .= " AND i_ProductID = :param_pid";
+        $params[':param_pid'] = $param_pid;
+    }
+    if ($param_price !== '') {
+        $sql .= " AND i_Price >= :param_price";
+        $params[':param_price'] = $param_price;
+    }
+    $sql .= " ORDER BY i_ProductID ASC LIMIT :limit OFFSET :offset";
 
     $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([
-        ':param_catid' => $param_catid,
-        ':param_price' => $param_price,
-    ]);
-
+    foreach ($params as $k => $v) $stmt->bindValue($k, $v, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
@@ -91,13 +116,13 @@ include_once 'include/elementMod.php';
                 <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
                     <div class="card-body">
                         <!-- FORM FILTER -->
-                        <form action="db_product_search.php" method="POST">
+                        <form action="db_product_search.php" method="GET">
                             <div class="row ">
                                 <div class="col-5">
                                     <!-- <input type="text" class="form-control" placeholder="หมวดหมู่สินค้าที่ค้นหา" name="cond_catid"> -->
                                     <?php
-                                    // dropdown_db($pdo,"cond_catid","tb_categories","i_CategoryID","c_CategoryName");
-                                    dropdown_db($pdo, "cond_catid", "tb_suppliers", "i_SupplierID", "c_SupplierName", $param_catid);
+                                    // show products by name in dropdown (cond_pid)
+                                    dropdown_db($pdo, "cond_pid", "tb_products", "i_ProductID", "c_ProductName", $param_pid);
                                     ?>
 
                                 </div>
@@ -135,6 +160,7 @@ include_once 'include/elementMod.php';
                                 <td><?php echo $product['pid']; ?></td>
                                 <td><?php echo $product['pname']; ?></td>
                                 <td><?php echo $product['pprice']; ?></td>
+
                                 <td>
                                     <!-- Form Method POST -->
                                     <form action="./crud/db_product_edit.php" method="POST">
@@ -162,11 +188,34 @@ include_once 'include/elementMod.php';
             </div>
             <div class="card-footer">
                 <ul class="pagination justify-content-end">
-                    <li class="page-item"><a class="page-link text-black " href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link text-black active" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">Next</a></li>
+
+                    <!-- ปุ่ม Previous -->
+                    <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                        <a class="page-link text-black"
+                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">
+                            Previous
+                        </a>
+                    </li>
+
+                    <!-- หมายเลขหน้า -->
+                    <?php
+                    $queryBase = $_GET;
+                    for ($p = 1; $p <= $totalPages; $p++) {
+                        $queryBase['page'] = $p;
+                        $href = '?' . http_build_query($queryBase);
+                        $active = ($p == $page) ? ' active' : '';
+                        echo "<li class=\"page-item$active\"><a class=\"page-link text-black$active\" href=\"$href\">$p</a></li>";
+                    }
+                    ?>
+
+                    <!-- ปุ่ม Next -->
+                    <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
+                        <a class="page-link text-black"
+                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">
+                            Next
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>

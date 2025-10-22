@@ -35,15 +35,15 @@ $NewID = getNewID($pdo, "tb_customers", "i_CustomerID");
                 <h2 class="mb-0" style="color: black;">เพิ่มข้อมูลลูกค้า</h2>
             </div>
             <div class="card-body">
-                <form action="../include/action.php" method="post">
+                <form class="needs-validation" novalidate action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_customers">
                     <input type="hidden" name="action" value="insert">
 
                     <?= input_text("i_CustomerID", "รหัสลูกค้า", "number", $NewID, "รหัสลูกค้าอัตโนมัติ", true); ?>
-                    <?= input_text("c_CustomerName", "ชื่อลูกค้า", "text", null, "กรุณากรอกชื่อลูกค้า"); ?>
-                    <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", null, "ชื่อผู้ประสานงาน"); ?>
-                    <?= input_text("c_City", "เมือง", "text", null, "จังหวัด / เมือง"); ?>
-                    <?= input_text("c_Country", "ประเทศ", "text", null, "เช่น ไทย"); ?>
+                    <?= input_text("c_CustomerName", "ชื่อลูกค้า", "text", null, "กรุณากรอกชื่อลูกค้า", false, true); ?>
+                    <?= input_text("c_ContactName", "ชื่อผู้ติดต่อ", "text", null, "ชื่อผู้ประสานงาน", false, false); ?>
+                    <?= input_text("c_City", "เมือง", "text", null, "จังหวัด / เมือง", false, false); ?>
+                    <?= input_text("c_Country", "ประเทศ", "text", null, "เช่น ไทย", false, false); ?>
 
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
@@ -55,3 +55,19 @@ $NewID = getNewID($pdo, "tb_customers", "i_CustomerID");
 </body>
 
 </html>
+<script>
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

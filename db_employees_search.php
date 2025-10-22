@@ -6,23 +6,41 @@ include_once 'include/connDB.php';
 include_once 'include/elementMod.php'; 
 
 
-$param_pid = isset($_POST['cond_pid']) && $_POST['cond_pid'] !== '' ? $_POST['cond_pid'] : '';
+// Use GET for filters so pagination links are clickable
+$param_pid = isset($_GET['cond_pid']) && $_GET['cond_pid'] !== '' ? $_GET['cond_pid'] : '';
 
+// Pagination settings
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$pageSize = 10;
+$offset = ($page - 1) * $pageSize;
+
+// Count total rows for current filter
+$countSql = "SELECT COUNT(*) FROM tb_employees WHERE 1=1";
+$countParams = [];
+if ($param_pid !== '') {
+    $countSql .= " AND i_EmployeeID = :param_pid";
+    $countParams[':param_pid'] = $param_pid;
+}
+$countStmt = $pdo->prepare($countSql);
+$countStmt->execute($countParams);
+$totalRows = (int)$countStmt->fetchColumn();
+$totalPages = $totalRows ? (int)ceil($totalRows / $pageSize) : 1;
+
+// Fetch page rows
 $sql = "SELECT i_EmployeeID as eid, c_LastName as lastname, c_FirstName as firstname, c_BirthDate as birthdate, c_Photo as photo, c_Notes as notes
-        FROM tb_employees";
-
+        FROM tb_employees WHERE 1=1";
 $params = [];
-
-if (!empty($param_pid)) {
-    $sql .= " WHERE i_EmployeeID = :param_pid";
+if ($param_pid !== '') {
+    $sql .= " AND i_EmployeeID = :param_pid";
     $params[':param_pid'] = $param_pid;
 }
-
-$sql .= " ORDER BY i_EmployeeID ASC";
-
+$sql .= " ORDER BY i_EmployeeID ASC LIMIT :limit OFFSET :offset";
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute($params);
+foreach ($params as $k => $v) $stmt->bindValue($k, $v, PDO::PARAM_INT);
+$stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
 $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -70,7 +88,7 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="" method="GET">
                             <div class="row">
                                 <div class="col-10">
                                     <?php
@@ -128,11 +146,34 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="card-footer">
                 <ul class="pagination justify-content-end">
-                    <li class="page-item"><a class="page-link text-black " href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link text-black active" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">Next</a></li>
+
+                    <!-- ปุ่ม Previous -->
+                    <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                        <a class="page-link text-black"
+                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">
+                            Previous
+                        </a>
+                    </li>
+
+                    <!-- หมายเลขหน้า -->
+                    <?php
+                    $queryBase = $_GET;
+                    for ($p = 1; $p <= $totalPages; $p++) {
+                        $queryBase['page'] = $p;
+                        $href = '?' . http_build_query($queryBase);
+                        $active = ($p == $page) ? ' active' : '';
+                        echo "<li class=\"page-item$active\"><a class=\"page-link text-black$active\" href=\"$href\">$p</a></li>";
+                    }
+                    ?>
+
+                    <!-- ปุ่ม Next -->
+                    <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
+                        <a class="page-link text-black"
+                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">
+                            Next
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>

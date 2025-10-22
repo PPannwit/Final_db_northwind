@@ -35,14 +35,14 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
                 <h2 class="mb-0" style="color: black;">เพิ่มข้อมูลพนักงาน</h2>
             </div>
             <div class="card-body">
-                <form action="../include/action.php" method="post">
+                <form class="needs-validation" novalidate action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_employees">
                     <input type="hidden" name="action" value="insert">
 
                     <?= input_text("i_EmployeeID", "รหัสพนักงาน", "number", $NewID, "รหัสพนักงานอัตโนมัติ", true); ?>
-                    <?= input_text("c_FirstName", "ชื่อ", "text", null, "กรอกชื่อพนักงาน"); ?>
-                    <?= input_text("c_LastName", "นามสกุล", "text", null, "กรอกนามสกุล"); ?>
-                    <?= input_text("d_BirthDate", "วันเกิด", "date", null, ""); ?>
+                    <?= input_text("c_FirstName", "ชื่อ", "text", null, "กรอกชื่อพนักงาน", false, true); ?>
+                    <?= input_text("c_LastName", "นามสกุล", "text", null, "กรอกนามสกุล", false, true); ?>
+                    <?= input_text("c_BirthDate", "วันเกิด", "date", null, "", false, false); ?>
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
                     </div>
@@ -54,3 +54,20 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
 </body>
 
 </html>
+<script>
+    // Bootstrap custom validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

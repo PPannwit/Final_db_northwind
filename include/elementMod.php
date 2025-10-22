@@ -1,16 +1,19 @@
 <?php
 
-function input_text($elementName, $strLabel, $elementType, $elementValue, $strGuide,$lock=false)
+function input_text($elementName, $strLabel, $elementType, $elementValue, $strGuide, $lock=false, $required=false)
 {
-    $lockAttr = $lock ? " readonly " : "";
-    echo "<div class=\"mb-3 mt-3\">
-       <label for=\"$elementName\" class=\"form-label\">$strLabel:</label>
-       <input type=\"$elementType\" class=\"form-control\" id=\"$elementName\"   
-        placeholder=\"$strGuide\" name=\"$elementName\" value =\"$elementValue\" $lockAttr>
-   </div>";
+     $lockAttr = $lock ? " readonly " : "";
+     $requiredAttr = $required ? " required " : "";
+     $feedback = $required ? "<div class=\"invalid-feedback\">".htmlspecialchars($strGuide ?: "กรุณากรอกข้อมูล")."</div>" : "";
+     echo "<div class=\"mb-3 mt-3\">
+         <label for=\"$elementName\" class=\"form-label\">$strLabel:</label>
+         <input type=\"$elementType\" class=\"form-control\" id=\"$elementName\"   
+          placeholder=\"$strGuide\" name=\"$elementName\" value=\"".htmlspecialchars($elementValue)."\" $lockAttr $requiredAttr>
+         $feedback
+    </div>";
 }
 
-function input_dropdown($pdo, $elementName, $strLabel, $tbName, $fieldID, $fieldName, $elementValue)
+function input_dropdown($pdo, $elementName, $strLabel, $tbName, $fieldID, $fieldName, $elementValue, $required=false)
 {
     $sql = "SELECT $fieldID as id , $fieldName as name FROM $tbName ";
     $stmt = $pdo->prepare($sql);
@@ -19,7 +22,9 @@ function input_dropdown($pdo, $elementName, $strLabel, $tbName, $fieldID, $field
 
     echo "<div class=\"mb-3 mt-3\">
        <label for=\"$elementName\" class=\"form-label\">$strLabel:</label>";
-    echo "<select class=\"form-select\" name=\"$elementName\" id=\"$elementName\">";
+    $requiredAttr = $required ? " required " : "";
+    $feedback = $required ? "<div class=\"invalid-feedback\">กรุณาเลือก $strLabel</div>" : "";
+    echo "<select class=\"form-select\" name=\"$elementName\" id=\"$elementName\" $requiredAttr>";
     echo "<option value=\"\">-- กรุณาเลือก $strLabel --</option>";
     foreach ($rows as $row) {
         $id = $row['id'];
@@ -27,7 +32,7 @@ function input_dropdown($pdo, $elementName, $strLabel, $tbName, $fieldID, $field
         $opt = ($elementValue == $id) ? " selected " : "";
         echo "<option value=$id $opt > $name </option>";
     }
-    echo "</select>
+    echo "</select>$feedback
    </div>";
 }
 

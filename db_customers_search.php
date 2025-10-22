@@ -38,23 +38,35 @@ include_once 'include/elementMod.php';
 <body>
 
     <?php require_once 'include/navbar.php';
-    $param_custid = isset($_POST['cond_custid']) && $_POST['cond_custid'] !== '' ? $_POST['cond_custid'] : '';
+    $param_custid = isset($_GET['cond_custid']) && $_GET['cond_custid'] !== '' ? $_GET['cond_custid'] : '';
 
-    $sql = "SELECT tb_customers.i_customerid as custid, 
-                   tb_customers.c_customername as custname, 
-                   tb_customers.c_contactname as contact,
-                   tb_customers.c_city as city,
-                   tb_customers.c_country as country
-            FROM tb_customers";
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $pageSize = 10;
+    $offset = ($page - 1) * $pageSize;
 
+    $countSql = "SELECT COUNT(*) FROM tb_customers WHERE 1=1";
+    $countParams = [];
+    if ($param_custid !== '') {
+        $countSql .= " AND i_customerid = :param_custid";
+        $countParams[':param_custid'] = $param_custid;
+    }
+    $countStmt = $pdo->prepare($countSql);
+    $countStmt->execute($countParams);
+    $totalRows = (int)$countStmt->fetchColumn();
+    $totalPages = $totalRows ? (int)ceil($totalRows / $pageSize) : 1;
+
+    $sql = "SELECT tb_customers.i_customerid as custid, tb_customers.c_customername as custname, tb_customers.c_contactname as contact, tb_customers.c_city as city, tb_customers.c_country as country FROM tb_customers WHERE 1=1";
     $params = [];
-    if (!empty($param_custid)) {
-        $sql .= " WHERE tb_customers.i_customerid = :param_custid";
+    if ($param_custid !== '') {
+        $sql .= " AND tb_customers.i_customerid = :param_custid";
         $params[':param_custid'] = $param_custid;
     }
-
+    $sql .= " ORDER BY i_customerid ASC LIMIT :limit OFFSET :offset";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
+    foreach ($params as $k => $v) $stmt->bindValue($k, $v, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
     $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
@@ -72,7 +84,7 @@ include_once 'include/elementMod.php';
                 </div>
                 <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="" method="GET">
                             <div class="row ">
                                 <div class="col-10">
                                     <?php
@@ -132,11 +144,34 @@ include_once 'include/elementMod.php';
             </div>
             <div class="card-footer">
                 <ul class="pagination justify-content-end">
-                    <li class="page-item"><a class="page-link text-black " href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link text-black active" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link text-black" href="#">Next</a></li>
+
+                    <!-- ปุ่ม Previous -->
+                    <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                        <a class="page-link text-black"
+                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">
+                            Previous
+                        </a>
+                    </li>
+
+                    <!-- หมายเลขหน้า -->
+                    <?php
+                    $queryBase = $_GET;
+                    for ($p = 1; $p <= $totalPages; $p++) {
+                        $queryBase['page'] = $p;
+                        $href = '?' . http_build_query($queryBase);
+                        $active = ($p == $page) ? ' active' : '';
+                        echo "<li class=\"page-item$active\"><a class=\"page-link text-black$active\" href=\"$href\">$p</a></li>";
+                    }
+                    ?>
+
+                    <!-- ปุ่ม Next -->
+                    <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
+                        <a class="page-link text-black"
+                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">
+                            Next
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>

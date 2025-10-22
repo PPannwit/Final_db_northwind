@@ -35,13 +35,13 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
                 <h2 class="mb-0" style="color: black;">เพิ่มหมวดหมู่สินค้า</h2>
             </div>
             <div class="card-body">
-                <form action="../include/action.php" method="post">
+                <form class="needs-validation" novalidate action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_categories">
                     <input type="hidden" name="action" value="insert">
 
                     <?= input_text("i_CategoryID", "รหัสหมวดหมู่", "number", $NewID, "รหัสหมวดหมู่อัตโนมัติ", true); ?>
-                    <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", null, "กรุณากรอกชื่อหมวดหมู่"); ?>
-                    <?= input_text("c_Description", "รายละเอียด", "text", null, "คำอธิบายเพิ่มเติม (ถ้ามี)"); ?>
+                    <?= input_text("c_CategoryName", "ชื่อหมวดหมู่", "text", null, "กรุณากรอกชื่อหมวดหมู่", false, true); ?>
+                    <?= input_text("c_Description", "รายละเอียด", "text", null, "คำอธิบายเพิ่มเติม (ถ้ามี)", false, false); ?>
 
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
@@ -53,3 +53,19 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
 </body>
 
 </html>
+<script>
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
