@@ -67,13 +67,13 @@ $results = array_slice($orders, $start_index, $records_per_page);
 
 <style>
     body {
-        background: linear-gradient(90deg, #f5f6f7ff 7%, #f5f6f7ff 50%, #f4f6f7ff 100%);
+        background: #2A7B9B;
+        background: linear-gradient(90deg, rgba(42, 123, 155, 1) 7%, rgb(3, 72, 193) 50%, rgb(2, 151, 192) 100%);
         font-family: 'Kanit', sans-serif;
-        color: #fff;
     }
 
     h1, h2 {
-        color: black;
+        color: #fff; /* เปลี่ยนเป็นสีขาว */
         text-align: center;
         margin-bottom: 20px;
     }

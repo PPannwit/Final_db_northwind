@@ -49,7 +49,7 @@ include_once 'include/elementMod.php';
     // Pagination
     // --------------------------
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
-    $pageSize = 10;
+    $pageSize = 8;
     $offset = ($page - 1) * $pageSize;
 
     // --------------------------
