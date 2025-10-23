@@ -21,7 +21,9 @@ include_once 'include/elementMod.php';
     <!-- GG Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
         body {
@@ -62,7 +64,7 @@ include_once 'include/elementMod.php';
     $param_pid = isset($_GET['cond_pid']) && $_GET['cond_pid'] !== '' ? $_GET['cond_pid'] : '';
     $param_price = isset($_GET['cond_price']) && $_GET['cond_price'] !== '' ? $_GET['cond_price'] : '';
 
-    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
     $pageSize = 10;
     $offset = ($page - 1) * $pageSize;
 
@@ -78,8 +80,8 @@ include_once 'include/elementMod.php';
     }
     $countStmt = $pdo->prepare($countSql);
     $countStmt->execute($countParams);
-    $totalRows = (int)$countStmt->fetchColumn();
-    $totalPages = $totalRows ? (int)ceil($totalRows / $pageSize) : 1;
+    $totalRows = (int) $countStmt->fetchColumn();
+    $totalPages = $totalRows ? (int) ceil($totalRows / $pageSize) : 1;
 
     $sql = "SELECT i_ProductID as pid, c_ProductName as pname, i_Price as pprice FROM tb_products WHERE 1=1";
     $params = [];
@@ -94,7 +96,8 @@ include_once 'include/elementMod.php';
     $sql .= " ORDER BY i_ProductID ASC LIMIT :limit OFFSET :offset";
 
     $stmt = $pdo->prepare($sql);
-    foreach ($params as $k => $v) $stmt->bindValue($k, $v, PDO::PARAM_INT);
+    foreach ($params as $k => $v)
+        $stmt->bindValue($k, $v, PDO::PARAM_INT);
     $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
@@ -127,10 +130,12 @@ include_once 'include/elementMod.php';
 
                                 </div>
                                 <div class="col-5">
-                                    <input type="number" class="form-control" placeholder="ราคาสินค้าที่ค้นหา" name="cond_price" value="<?php echo $param_price; ?>">
+                                    <input type="number" class="form-control" placeholder="ราคาสินค้าที่ค้นหา"
+                                        name="cond_price" value="<?php echo $param_price; ?>">
                                 </div>
                                 <div class="col-2 d-grid">
-                                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;&nbsp;ค้นหาข้อมูล</button>
+                                    <button type="submit" class="btn btn-primary"><i
+                                            class="bi bi-search"></i>&nbsp;&nbsp;ค้นหาข้อมูล</button>
                                 </div>
                             </div>
                         </form>
@@ -165,7 +170,8 @@ include_once 'include/elementMod.php';
                                     <!-- Form Method POST -->
                                     <form action="./crud/db_product_edit.php" method="POST">
                                         <input type="hidden" name="pid" value="<?php echo $product['pid']; ?>">
-                                        <button onclick="EditData(<?php echo $product['pid']; ?>)" type="button" class="btn btn-warning text-white bi bi-pen fs-6"></button>
+                                        <button onclick="EditData(<?php echo $product['pid']; ?>)" type="button"
+                                            class="btn btn-warning text-white bi bi-pen fs-6"></button>
                                     </form>
                                 </td>
                                 <td>
@@ -180,43 +186,75 @@ include_once 'include/elementMod.php';
                                 <!-- <td>
                                     <button onclick="EditData(<?= $product['pid']; ?>)" type="button" class="btn btn-warning text-white bi bi-pen fs-6"></button>
                                 </td> -->
-                                
+
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
             </div>
             <div class="card-footer">
-                <ul class="pagination justify-content-end">
+                <?php if ($totalPages > 1): ?>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center justify-content-md-end">
+                            <!-- ปุ่มย้อนกลับ -->
+                            <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
+                                <a class="page-link text-primary"
+                                    href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">ย้อนกลับ</a>
+                            </li>
 
-                    <!-- ปุ่ม Previous -->
-                    <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
-                        <a class="page-link text-black"
-                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">
-                            Previous
-                        </a>
-                    </li>
+                            <?php
+                            $adjacents = 1; // จำนวนหน้าข้างเคียง
+                            $show_pages = [1];
 
-                    <!-- หมายเลขหน้า -->
-                    <?php
-                    $queryBase = $_GET;
-                    for ($p = 1; $p <= $totalPages; $p++) {
-                        $queryBase['page'] = $p;
-                        $href = '?' . http_build_query($queryBase);
-                        $active = ($p == $page) ? ' active' : '';
-                        echo "<li class=\"page-item$active\"><a class=\"page-link text-black$active\" href=\"$href\">$p</a></li>";
-                    }
-                    ?>
+                            if ($totalPages >= 2)
+                                $show_pages[] = 2;
+                            if ($page > 4)
+                                $show_pages[] = '...';
 
-                    <!-- ปุ่ม Next -->
-                    <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
-                        <a class="page-link text-black"
-                            href="?<?php echo http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">
-                            Next
-                        </a>
-                    </li>
+                            for ($i = $page - $adjacents; $i <= $page + $adjacents; $i++) {
+                                if ($i > 2 && $i < $totalPages - 1)
+                                    $show_pages[] = $i;
+                            }
 
-                </ul>
+                            if ($page < $totalPages - 3)
+                                $show_pages[] = '...';
+                            if ($totalPages > 2)
+                                $show_pages[] = $totalPages - 1;
+                            if ($totalPages > 1)
+                                $show_pages[] = $totalPages;
+
+                            $show_pages = array_unique($show_pages);
+                            sort($show_pages);
+
+                            $queryBase = $_GET;
+                            $last = 0;
+
+                            foreach ($show_pages as $p) {
+                                if ($p === '...') {
+                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    continue;
+                                }
+                                if ($last && $p - $last > 1 && $last !== '...') {
+                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                }
+                                $queryBase['page'] = $p;
+                                $href = '?' . http_build_query($queryBase);
+                                $active = ($p == $page) ? ' active' : '';
+                                echo '<li class="page-item' . $active . '"><a class="page-link" href="' . $href . '">' . $p . '</a></li>';
+                                $last = $p;
+                            }
+                            ?>
+
+                            <!-- ปุ่มถัดไป -->
+                            <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
+                                <a class="page-link text-primary"
+                                    href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">ถัดไป</a>
+                            </li>
+                        </ul>
+                    </nav>
+                <?php else: ?>
+                    <div class="text-end text-muted small">ไม่มีข้อมูลมากพอสำหรับการแบ่งหน้า</div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
