@@ -44,8 +44,10 @@ $NewID = getNewID($pdo, "tb_categories", "i_CategoryID");
                     <?= input_text("c_Description", "รายละเอียด", "text", null, "คำอธิบายเพิ่มเติม (ถ้ามี)", false, false); ?>
 
                     <div class="text-center mt-4">
+                        <a href="../db_categories_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
                     </div>
+
                 </form>
             </div>
         </div>

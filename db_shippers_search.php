@@ -130,11 +130,11 @@ $shippers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Shipper ID</th>
-                            <th>Shipper Name</th>
-                            <th>Phone</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>รหัสผู้ส่ง</th>
+                            <th>ชื่อผู้ส่ง</th>
+                            <th>โทรศัพท์</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -44,6 +44,7 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
                     <?= input_text("c_LastName", "นามสกุล", "text", null, "กรอกนามสกุล", false, true); ?>
                     <?= input_text("c_BirthDate", "วันเกิด", "date", null, "", false, false); ?>
                     <div class="text-center mt-4">
+                        <a href="../db_employees_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
                     </div>
                 </form>

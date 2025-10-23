@@ -53,6 +53,7 @@ $customer = getEdit($pdo, 'tb_customers', 'i_CustomerID', $_POST['custid']);
                      => 24, place Kléber [c_city] => Strasbourg [c_postalcode] => 67000 [c_country] => France ) -->
 
                     <div class="text-center mt-4">
+                        <a href="../db_customers_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                             บันทึกข้อมูล
                         </button>

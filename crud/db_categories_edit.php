@@ -50,6 +50,7 @@ $category = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_REQUEST['cid']);
                     <?= input_text("c_Description", "รายละเอียด", "text", $category["c_Description"], "กรุณากรอกรายละเอียดหมวดหมู่"); ?>
 
                     <div class="text-center mt-4">
+                        <a href="../db_categories_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                             บันทึกข้อมูล
                         </button>

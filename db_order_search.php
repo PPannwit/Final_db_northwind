@@ -75,7 +75,7 @@ include_once 'include/elementMod.php';
                 <hr>
 
                 <!-- รายการสินค้า -->
-                <h5>รายการสินค้า (สูงสุด 10 รายการ)</h5>
+                <h5>รายการสินค้า</h5>
                 <table class="table table-bordered text-center align-middle">
                     <thead class="table-light">
                         <tr>

@@ -127,14 +127,14 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Supplier ID</th>
-                            <th>Supplier Name</th>
-                            <th>Contact Name</th>
-                            <th>City</th>
-                            <th>Country</th>
-                            <th>Phone</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>รหัสซัพพลายเออร์</th>
+                            <th>ชื่อซัพพลายเออร์</th>
+                            <th>ชื่อผู้ติดต่อ</th>
+                            <th>เมือง</th>
+                            <th>ประเทศ</th>
+                            <th>โทรศัพท์</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,7 +163,6 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tbody>
                 </table>
             </div>
-            <!-- ✅ Pagination แบบ db_product_search.php -->
             <div class="card-footer">
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-end mb-0">
@@ -176,32 +175,46 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </li>
 
                         <?php
+                        $show_pages = [];
                         $adjacents = 1; // จำนวนหน้าข้างเคียง
-                        $show_pages = [1];
+                        
+                        if ($totalPages <= 7) {
+                            // กรณีหน้าจำนวนน้อย แสดงทั้งหมด
+                            $show_pages = range(1, $totalPages);
+                        } else {
+                            // แสดงหน้าแรก
+                            $show_pages[] = 1;
 
-                        if ($totalPages >= 2)
-                            $show_pages[] = 2;
-                        if ($page > 4)
-                            $show_pages[] = '...';
+                            // แสดงหน้า 2 ถ้าอยู่ใกล้หน้าแรก
+                            if ($page > 4) {
+                                $show_pages[] = '...';
+                            } else {
+                                $show_pages[] = 2;
+                            }
 
-                        for ($i = $page - $adjacents; $i <= $page + $adjacents; $i++) {
-                            if ($i > 2 && $i < $totalPages - 1)
-                                $show_pages[] = $i;
-                        }
+                            // หน้าใกล้ current page
+                            for ($i = $page - $adjacents; $i <= $page + $adjacents; $i++) {
+                                if ($i > 1 && $i < $totalPages) {
+                                    $show_pages[] = $i;
+                                }
+                            }
 
-                        if ($page < $totalPages - 3)
-                            $show_pages[] = '...';
-                        if ($totalPages > 2)
-                            $show_pages[] = $totalPages - 1;
-                        if ($totalPages > 1)
+                            // แสดง ... ก่อนหน้าสุดท้าย
+                            if ($page < $totalPages - 3) {
+                                $show_pages[] = '...';
+                            } else {
+                                if ($totalPages - 1 > 2)
+                                    $show_pages[] = $totalPages - 1;
+                            }
+
+                            // แสดงหน้าสุดท้าย
                             $show_pages[] = $totalPages;
+                        }
 
                         $show_pages = array_unique($show_pages);
                         sort($show_pages);
 
-                        $queryBase = $_GET;
                         $last = 0;
-
                         foreach ($show_pages as $p) {
                             if ($p === '...') {
                                 echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
@@ -210,10 +223,10 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             if ($last && $p - $last > 1 && $last !== '...') {
                                 echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                             }
+                            $queryBase = $_GET;
                             $queryBase['page'] = $p;
-                            $href = '?' . http_build_query($queryBase);
                             $active = ($p == $page) ? ' active' : '';
-                            echo '<li class="page-item' . $active . '"><a class="page-link text-primary" href="' . $href . '">' . $p . '</a></li>';
+                            echo '<li class="page-item' . $active . '"><a class="page-link text-primary" href="?' . http_build_query($queryBase) . '">' . $p . '</a></li>';
                             $last = $p;
                         }
                         ?>

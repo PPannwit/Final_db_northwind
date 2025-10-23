@@ -128,11 +128,11 @@ include_once 'include/elementMod.php';
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Category ID</th>
-                            <th>Category Name</th>
-                            <th>Description</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>รหัสหมวดหมู่</th>
+                            <th>ชื่อหมวดหมู่</th>
+                            <th>คำอธิบาย</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -19,7 +19,8 @@ include_once 'include/elementMod.php';
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <style>
@@ -47,7 +48,7 @@ include_once 'include/elementMod.php';
     // --------------------------
     // Pagination
     // --------------------------
-    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
     $pageSize = 10;
     $offset = ($page - 1) * $pageSize;
 
@@ -64,8 +65,8 @@ include_once 'include/elementMod.php';
 
     $countStmt = $pdo->prepare($countSql);
     $countStmt->execute($countParams);
-    $totalRows = (int)$countStmt->fetchColumn();
-    $totalPages = max(1, (int)ceil($totalRows / $pageSize));
+    $totalRows = (int) $countStmt->fetchColumn();
+    $totalPages = max(1, (int) ceil($totalRows / $pageSize));
 
     // --------------------------
     // ดึงข้อมูลลูกค้า
@@ -88,7 +89,8 @@ include_once 'include/elementMod.php';
     $sql .= " ORDER BY i_customerid ASC LIMIT :limit OFFSET :offset";
     $stmt = $pdo->prepare($sql);
 
-    foreach ($params as $k => $v) $stmt->bindValue($k, $v, PDO::PARAM_INT);
+    foreach ($params as $k => $v)
+        $stmt->bindValue($k, $v, PDO::PARAM_INT);
     $stmt->bindValue(':limit', $pageSize, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
@@ -133,13 +135,13 @@ include_once 'include/elementMod.php';
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Customer ID</th>
-                            <th>Customer Name</th>
-                            <th>Contact Name</th>
-                            <th>City</th>
-                            <th>Country</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>รหัสลูกค้า</th>
+                            <th>ชื่อลูกค้า</th>
+                            <th>ชื่อผู้ติดต่อ</th>
+                            <th>เมือง</th>
+                            <th>ประเทศ</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -187,24 +189,42 @@ include_once 'include/elementMod.php';
                             </li>
 
                             <?php
-                            $adjacents = 1;
-                            $show_pages = [1];
-                            if ($totalPages >= 2) $show_pages[] = 2;
-                            if ($page > 4) $show_pages[] = '...';
+                            $show_pages = [];
+                            $adjacents = 1; // จำนวนหน้ารอบ current
+                        
+                            // หน้าแรก
+                            $show_pages[] = 1;
 
-                            for ($i = $page - $adjacents; $i <= $page + $adjacents; $i++) {
-                                if ($i > 2 && $i < $totalPages - 1) $show_pages[] = $i;
+                            // ถ้าห่างจากหน้าแรกมากกว่า 2 ให้แสดง ...
+                            if ($page - $adjacents > 2) {
+                                $show_pages[] = '...';
+                            } else {
+                                for ($i = 2; $i < $page - $adjacents; $i++) {
+                                    $show_pages[] = $i;
+                                }
                             }
 
-                            if ($page < $totalPages - 3) $show_pages[] = '...';
-                            if ($totalPages > 2) $show_pages[] = $totalPages - 1;
-                            if ($totalPages > 1) $show_pages[] = $totalPages;
+                            // หน้าใกล้ current
+                            for ($i = max(2, $page - $adjacents); $i <= min($totalPages - 1, $page + $adjacents); $i++) {
+                                $show_pages[] = $i;
+                            }
+
+                            // ถ้าห่างจากหน้าสุดท้ายมากกว่า 1 ให้แสดง ...
+                            if ($page + $adjacents < $totalPages - 1) {
+                                $show_pages[] = '...';
+                            } else {
+                                for ($i = $page + $adjacents + 1; $i < $totalPages; $i++) {
+                                    $show_pages[] = $i;
+                                }
+                            }
+
+                            // หน้าสุดท้าย
+                            if ($totalPages > 1)
+                                $show_pages[] = $totalPages;
 
                             $show_pages = array_unique($show_pages);
-                            sort($show_pages);
 
                             $queryBase = $_GET;
-                            $last = 0;
 
                             foreach ($show_pages as $p) {
                                 if ($p === '...') {
@@ -212,9 +232,8 @@ include_once 'include/elementMod.php';
                                     continue;
                                 }
                                 $queryBase['page'] = $p;
-                                $href = '?' . http_build_query($queryBase);
                                 $active = ($p == $page) ? ' active' : '';
-                                echo '<li class="page-item' . $active . '"><a class="page-link" href="' . $href . '">' . $p . '</a></li>';
+                                echo '<li class="page-item' . $active . '"><a class="page-link" href="?' . http_build_query($queryBase) . '">' . $p . '</a></li>';
                             }
                             ?>
 
@@ -229,8 +248,10 @@ include_once 'include/elementMod.php';
                     <div class="text-end text-muted small">ไม่มีข้อมูลมากพอสำหรับการแบ่งหน้า</div>
                 <?php endif; ?>
             </div>
+
         </div>
     </div>
 
 </body>
+
 </html>

@@ -51,7 +51,10 @@ $NewID = getNewID($pdo, "tb_products", "i_ProductID");
                     <?= input_text("c_ProductName", "ชื่อสินค้า", "text", null, "กรุณากรอกชื่อสินค้า", false, true); ?>
                     <?= input_text("i_Price", "ราคา", "number", null, "กรุณากรอกราคา (ตัวเลข)", false, true); ?>
 
-                    <div class="text-center mt-4"><button type="submit" class="btn btn-success">เพิ่มข้อมูล</button></div>
+                    <div class="text-center mt-4">
+                        <a href="../db_product_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
+                        <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
+                    </div>
                 </form>
             </div>
         </div>

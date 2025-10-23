@@ -66,6 +66,7 @@ if ($pid !== '') {
                     => Education includes a BA in psychology from Colorado State University. She also c ) -->
 
                         <div class="text-center mt-4">
+                            <a href="../db_employees_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#confirmModal">
                                 บันทึกข้อมูล

@@ -152,11 +152,11 @@ include_once 'include/elementMod.php';
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Product ID</th>
-                            <th>Product Name</th>
-                            <th>Product Price</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>รหัสสินค้า</th>
+                            <th>ชื่อสินค้า</th>
+                            <th>ราคาสินค้า</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -217,7 +217,7 @@ include_once 'include/elementMod.php';
                             }
 
                             if ($page < $totalPages - 3)
-                                $show_pages[] = '...';
+                                //$show_pages[] = '...';
                             if ($totalPages > 2)
                                 $show_pages[] = $totalPages - 1;
                             if ($totalPages > 1)

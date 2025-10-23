@@ -46,6 +46,7 @@ $NewID = getNewID($pdo, "tb_customers", "i_CustomerID");
                     <?= input_text("c_Country", "ประเทศ", "text", null, "เช่น ไทย", false, false); ?>
 
                     <div class="text-center mt-4">
+                        <a href="../db_customers_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
                     </div>
                 </form>

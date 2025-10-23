@@ -118,12 +118,12 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <table class="table table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th>Employee ID</th>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>Birth Date</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>รหัสพนักงาน</th>
+                            <th>นามสกุล</th>
+                            <th>ชื่อ</th>
+                            <th>วันเกิด</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>

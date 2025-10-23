@@ -44,6 +44,7 @@ $NewID = getNewID($pdo, "tb_shippers", "i_ShipperID");
                     <?= input_text("c_Phone", "เบอร์โทรศัพท์", "text", null, "เช่น 0812345678", false, false); ?>
 
                     <div class="text-center mt-4">
+                        <a href="../db_shippers_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                         <button type="submit" class="btn btn-success">เพิ่มข้อมูล</button>
                     </div>
                 </form>

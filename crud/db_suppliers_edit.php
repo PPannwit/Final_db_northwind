@@ -55,6 +55,7 @@ $supplier = getEdit($pdo, 'tb_suppliers', 'i_SupplierID', $_REQUEST['sid']);
                 New Orleans [c_PostalCode] => 70117 [c_Country] => USA [c_Phone] => (100) 555-4822 ) -->
 
                 <div class="text-center mt-4">
+                    <a href="../db_suppliers_search.php" class="btn btn-secondary me-2">ย้อนกลับ</a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                         บันทึกข้อมูล
                     </button>
