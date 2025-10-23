@@ -76,6 +76,13 @@
                         <i></i>&nbsp;&nbsp;ขายสินค้า
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Final_db_northwind/db_sales_search.php">
+                        <i></i>&nbsp;&nbsp;ตรวจสอบคำสั่งซื้อ
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
