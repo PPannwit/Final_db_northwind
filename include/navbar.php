@@ -4,12 +4,9 @@
             <img src="./public/image/avatar.png" alt="Avatar Logo" style="width:40px;" class="rounded-pill">
         </a>
 
-        <!-- Hamberger -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Navbar -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">

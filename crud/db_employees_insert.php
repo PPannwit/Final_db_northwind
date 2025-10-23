@@ -56,7 +56,6 @@ $NewID = getNewID($pdo, "tb_employees", "i_EmployeeID");
 
 </html>
 <script>
-    // Bootstrap custom validation
     (function () {
         'use strict'
         var forms = document.querySelectorAll('.needs-validation')

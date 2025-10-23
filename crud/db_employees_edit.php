@@ -21,11 +21,9 @@ if ($pid !== '') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <!-- BS5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- GG Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -49,9 +47,7 @@ if ($pid !== '') {
     <?php require_once '../include/navbar.php'; ?>
     <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
         <div class="card w-75">
-            <!-- ชื่อหน้าจอ -->
             <div class="card-header">
-                <!-- From Input -->
                 <h2 class="text-center">แก้ไขข้อมูลพนักงาน</h2></div>
                 <div class="card-body">
                     <form id="editForm" action="../include/action.php" method="post">

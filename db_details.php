@@ -3,16 +3,13 @@ include_once 'include/connDB.php';
 include_once 'include/elementMod.php';
 require_once 'include/navbar.php';
 
-// ==================== รับค่า Order ID ====================
 $order_id = isset($_POST['i_OrderID']) && is_numeric($_POST['i_OrderID']) ? $_POST['i_OrderID'] : 0;
 
-// ถ้าไม่มีค่า order_id ให้กลับไปหน้าเดิม
 if ($order_id == 0) {
     header("Location: db_sales_search.php");
     exit();
 }
 
-// ==================== Query ข้อมูลรายละเอียดสินค้า ====================
 $sql = "SELECT 
             o.i_OrderID,
             o.c_OrderDate,
@@ -35,7 +32,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(['order_id' => $order_id]);
 $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ==================== สรุปยอดรวม ====================
 $total_qty = 0;
 $total_price = 0;
 foreach ($details as $row) {
@@ -86,7 +82,6 @@ h1, h2, h3, h4 {
     background-color: #f8f9fa;
 }
 
-/* ปุ่มพิมพ์สีเขียว */
 .btn-print {
     background-color: #28a745;
     color: #fff;
@@ -97,7 +92,6 @@ h1, h2, h3, h4 {
     color: #fff;
 }
 
-/* สีไอคอนเครื่องพิมพ์ */
 .btn-print i {
     color: #fff;
 }

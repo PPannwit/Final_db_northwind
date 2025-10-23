@@ -45,7 +45,6 @@ function dropdown_db($pdo, $elementName, $tbName, $fieldId, $fieldName, $element
     $stmt->execute();
 
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // echo json_encode($products);
     echo "<select class=\"form-select\" name=\"$elementName\">";
     foreach ($products as $product) {
         $id = htmlspecialchars($product['id']);

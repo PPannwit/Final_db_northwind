@@ -5,15 +5,12 @@ error_reporting(E_ALL);
 include_once 'include/connDB.php';
 include_once 'include/elementMod.php';
 
-// Filters via GET so pagination links keep parameters
 $param_sid = isset($_GET['cond_sid']) && $_GET['cond_sid'] !== '' ? $_GET['cond_sid'] : '';
 
-// Pagination
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $pageSize = 8;
 $offset = ($page - 1) * $pageSize;
 
-// count total
 $countSql = "SELECT COUNT(*) FROM tb_shippers WHERE 1=1";
 $countParams = [];
 if ($param_sid !== '') {
@@ -25,7 +22,6 @@ $countStmt->execute($countParams);
 $totalRows = (int) $countStmt->fetchColumn();
 $totalPages = $totalRows ? (int) ceil($totalRows / $pageSize) : 1;
 
-// fetch page
 $sql = "SELECT i_ShipperID as sid, c_ShipperName as sname, c_Phone as phone FROM tb_shippers WHERE 1=1";
 $params = [];
 if ($param_sid !== '') {
@@ -161,20 +157,16 @@ $shippers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tbody>
                 </table>
             </div>
-            <!-- ✅ Pagination แบบ ... -->
             <div class="card-footer">
                 <?php if ($totalPages > 1): ?>
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-end">
-
-                            <!-- ปุ่มย้อนกลับ -->
                             <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">ย้อนกลับ</a>
                             </li>
-
                             <?php
-                            $adjacents = 1; // จำนวนหน้าข้างเคียง
+                            $adjacents = 1;
                             $show_pages = [1];
                             if ($totalPages >= 2)
                                 $show_pages[] = 2;
@@ -213,8 +205,6 @@ $shippers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 $last = $p;
                             }
                             ?>
-
-                            <!-- ปุ่มถัดไป -->
                             <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">ถัดไป</a>

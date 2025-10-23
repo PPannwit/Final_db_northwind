@@ -13,11 +13,9 @@ $category = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_REQUEST['cid']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แก้ไขข้อมูลหมวดหมู่สินค้า</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
@@ -34,12 +32,9 @@ $category = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_REQUEST['cid']);
 
     <div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
         <div class="card w-75 shadow-lg border-0">
-            <!-- Header -->
             <div class="card-header text-center bg-white">
                 <h2 class="mb-0" style="color: black;">แก้ไขข้อมูลหมวดหมู่สินค้า</h2>
             </div>
-
-            <!-- Form Body -->
             <div class="card-body">
                 <form id="editForm" action="../include/action.php" method="post">
                     <input type="hidden" name="tb_name" value="tb_categories">
@@ -57,8 +52,6 @@ $category = getEdit($pdo, 'tb_categories', 'i_CategoryID', $_REQUEST['cid']);
                     </div>
                 </form>
             </div>
-
-            <!-- Modal ยืนยันการบันทึก -->
             <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content shadow-lg border-0">

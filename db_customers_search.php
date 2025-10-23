@@ -40,21 +40,13 @@ include_once 'include/elementMod.php';
     <?php require_once 'include/navbar.php'; ?>
 
     <?php
-    // --------------------------
-    // ตัวกรองข้อมูล
-    // --------------------------
+
     $param_custid = isset($_GET['cond_custid']) && $_GET['cond_custid'] !== '' ? $_GET['cond_custid'] : '';
 
-    // --------------------------
-    // Pagination
-    // --------------------------
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
     $pageSize = 8;
     $offset = ($page - 1) * $pageSize;
 
-    // --------------------------
-    // นับจำนวนข้อมูลทั้งหมด
-    // --------------------------
     $countSql = "SELECT COUNT(*) FROM tb_customers WHERE 1=1";
     $countParams = [];
 
@@ -68,9 +60,6 @@ include_once 'include/elementMod.php';
     $totalRows = (int) $countStmt->fetchColumn();
     $totalPages = max(1, (int) ceil($totalRows / $pageSize));
 
-    // --------------------------
-    // ดึงข้อมูลลูกค้า
-    // --------------------------
     $sql = "SELECT 
                 i_customerid AS custid, 
                 c_customername AS custname, 
@@ -175,14 +164,10 @@ include_once 'include/elementMod.php';
                     </tbody>
                 </table>
             </div>
-
-            <!-- ✅ Pagination -->
             <div class="card-footer">
                 <?php if ($totalPages > 1): ?>
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center justify-content-md-end">
-
-                            <!-- ปุ่มย้อนกลับ -->
                             <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">ย้อนกลับ</a>
@@ -190,12 +175,9 @@ include_once 'include/elementMod.php';
 
                             <?php
                             $show_pages = [];
-                            $adjacents = 1; // จำนวนหน้ารอบ current
-                        
-                            // หน้าแรก
+                            $adjacents = 1; 
                             $show_pages[] = 1;
 
-                            // ถ้าห่างจากหน้าแรกมากกว่า 2 ให้แสดง ...
                             if ($page - $adjacents > 2) {
                                 $show_pages[] = '...';
                             } else {
@@ -204,12 +186,10 @@ include_once 'include/elementMod.php';
                                 }
                             }
 
-                            // หน้าใกล้ current
                             for ($i = max(2, $page - $adjacents); $i <= min($totalPages - 1, $page + $adjacents); $i++) {
                                 $show_pages[] = $i;
                             }
 
-                            // ถ้าห่างจากหน้าสุดท้ายมากกว่า 1 ให้แสดง ...
                             if ($page + $adjacents < $totalPages - 1) {
                                 $show_pages[] = '...';
                             } else {
@@ -217,8 +197,6 @@ include_once 'include/elementMod.php';
                                     $show_pages[] = $i;
                                 }
                             }
-
-                            // หน้าสุดท้าย
                             if ($totalPages > 1)
                                 $show_pages[] = $totalPages;
 
@@ -236,8 +214,6 @@ include_once 'include/elementMod.php';
                                 echo '<li class="page-item' . $active . '"><a class="page-link" href="?' . http_build_query($queryBase) . '">' . $p . '</a></li>';
                             }
                             ?>
-
-                            <!-- ปุ่มถัดไป -->
                             <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">ถัดไป</a>

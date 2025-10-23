@@ -50,15 +50,12 @@ include_once 'include/elementMod.php';
     <?php require_once 'include/navbar.php'; ?>
 
     <?php
-    // รับค่าพารามิเตอร์จาก GET
     $param_catid = isset($_GET['cond_catid']) && $_GET['cond_catid'] !== '' ? $_GET['cond_catid'] : '';
 
-    // Pagination setup
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
     $pageSize = 8;
     $offset = ($page - 1) * $pageSize;
 
-    // นับจำนวนข้อมูลทั้งหมด
     $countSql = "SELECT COUNT(*) FROM tb_categories WHERE 1=1";
     $countParams = [];
     if ($param_catid !== '') {
@@ -69,8 +66,6 @@ include_once 'include/elementMod.php';
     $countStmt->execute($countParams);
     $totalRows = (int) $countStmt->fetchColumn();
     $totalPages = $totalRows ? (int) ceil($totalRows / $pageSize) : 1;
-
-    // ดึงข้อมูลตามหน้า
     $sql = "SELECT i_CategoryID as cid, c_CategoryName as cname, c_Description as cdesc
             FROM tb_categories WHERE 1=1";
     $params = [];
@@ -100,7 +95,6 @@ include_once 'include/elementMod.php';
                 </div>
                 <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
                     <div class="card-body">
-                        <!-- ✅ ใช้ GET เพื่อให้ pagination ใช้งานต่อได้ -->
                         <form action="" method="GET">
                             <div class="row">
                                 <div class="col-10">
@@ -157,20 +151,17 @@ include_once 'include/elementMod.php';
                     </tbody>
                 </table>
             </div>
-
-            <!-- ✅ Pagination แบบ ... -->
             <div class="card-footer">
                 <?php if ($totalPages > 1): ?>
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center justify-content-md-end">
-                            <!-- ปุ่มย้อนกลับ -->
                             <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">ย้อนกลับ</a>
                             </li>
 
                             <?php
-                            $adjacents = 1; // จำนวนหน้าข้างเคียง
+                            $adjacents = 1; 
                             $show_pages = [1];
 
                             if ($totalPages >= 2)
@@ -211,8 +202,6 @@ include_once 'include/elementMod.php';
                                 $last = $p;
                             }
                             ?>
-
-                            <!-- ปุ่มถัดไป -->
                             <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">ถัดไป</a>

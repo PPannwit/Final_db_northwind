@@ -5,15 +5,12 @@ error_reporting(E_ALL);
 include_once 'include/connDB.php';
 include_once 'include/elementMod.php';
 
-// --- ใช้ GET สำหรับตัวกรองเพื่อให้ pagination คลิกได้ ---
 $param_pid = isset($_GET['cond_pid']) && $_GET['cond_pid'] !== '' ? $_GET['cond_pid'] : '';
 
-// --- การตั้งค่าการแบ่งหน้า ---
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $pageSize = 8;
 $offset = ($page - 1) * $pageSize;
 
-// --- นับจำนวนแถวทั้งหมด ---
 $countSql = "SELECT COUNT(*) FROM tb_employees WHERE 1=1";
 $countParams = [];
 if ($param_pid !== '') {
@@ -25,7 +22,6 @@ $countStmt->execute($countParams);
 $totalRows = (int) $countStmt->fetchColumn();
 $totalPages = $totalRows ? (int) ceil($totalRows / $pageSize) : 1;
 
-// --- ดึงข้อมูลพนักงาน ---
 $sql = "SELECT i_EmployeeID as eid, c_LastName as lastname, c_FirstName as firstname, c_BirthDate as birthdate, c_Photo as photo, c_Notes as notes
         FROM tb_employees WHERE 1=1";
 $params = [];
@@ -81,7 +77,6 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container p-4">
         <h1>หน้าจอค้นหาพนักงาน</h1>
 
-        <!-- ตัวกรอง -->
         <div id="accordion">
             <div class="card">
                 <div class="card-header">
@@ -110,8 +105,6 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <p></p>
         </div>
-
-        <!-- ตารางข้อมูล -->
         <div class="card">
             <div class="card-header">รายชื่อพนักงาน</div>
             <div class="card-body">
@@ -156,21 +149,17 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tbody>
                 </table>
             </div>
-
-            <!-- ✅ Pagination แบบ ... -->
             <div class="card-footer">
                 <?php if ($totalPages > 1): ?>
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-end">
-
-                            <!-- ปุ่มย้อนกลับ -->
                             <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">ย้อนกลับ</a>
                             </li>
 
                             <?php
-                            $adjacents = 1; // จำนวนหน้าข้างเคียง
+                            $adjacents = 1; 
                             $show_pages = [1];
                             if ($totalPages >= 2)
                                 $show_pages[] = 2;
@@ -209,8 +198,6 @@ $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 $last = $p;
                             }
                             ?>
-
-                            <!-- ปุ่มถัดไป -->
                             <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
                                 <a class="page-link text-primary"
                                     href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">ถัดไป</a>

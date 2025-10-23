@@ -166,7 +166,6 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="card-footer">
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-end mb-0">
-                        <!-- ปุ่มย้อนกลับ -->
                         <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
                             <a class="page-link text-primary"
                                 href="?<?= http_build_query(array_merge($_GET, ['page' => max(1, $page - 1)])); ?>">
@@ -176,38 +175,30 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <?php
                         $show_pages = [];
-                        $adjacents = 1; // จำนวนหน้าข้างเคียง
+                        $adjacents = 1; 
                         
                         if ($totalPages <= 7) {
-                            // กรณีหน้าจำนวนน้อย แสดงทั้งหมด
                             $show_pages = range(1, $totalPages);
                         } else {
-                            // แสดงหน้าแรก
                             $show_pages[] = 1;
-
-                            // แสดงหน้า 2 ถ้าอยู่ใกล้หน้าแรก
                             if ($page > 4) {
                                 $show_pages[] = '...';
                             } else {
                                 $show_pages[] = 2;
                             }
 
-                            // หน้าใกล้ current page
                             for ($i = $page - $adjacents; $i <= $page + $adjacents; $i++) {
                                 if ($i > 1 && $i < $totalPages) {
                                     $show_pages[] = $i;
                                 }
                             }
 
-                            // แสดง ... ก่อนหน้าสุดท้าย
                             if ($page < $totalPages - 3) {
                                 $show_pages[] = '...';
                             } else {
                                 if ($totalPages - 1 > 2)
                                     $show_pages[] = $totalPages - 1;
                             }
-
-                            // แสดงหน้าสุดท้าย
                             $show_pages[] = $totalPages;
                         }
 
@@ -230,8 +221,6 @@ $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             $last = $p;
                         }
                         ?>
-
-                        <!-- ปุ่มถัดไป -->
                         <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
                             <a class="page-link text-primary"
                                 href="?<?= http_build_query(array_merge($_GET, ['page' => min($totalPages, $page + 1)])); ?>">

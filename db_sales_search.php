@@ -3,11 +3,9 @@ include_once 'include/connDB.php';
 include_once 'include/elementMod.php';
 require_once 'include/navbar.php';
 
-// ==================== Filter ====================
 $param_catid = isset($_POST['cond_catid']) && $_POST['cond_catid'] !== '' ? $_POST['cond_catid'] : 1;
 $param_price = isset($_POST['cond_price']) && $_POST['cond_price'] !== '' ? $_POST['cond_price'] : 10;
 
-// ==================== Query ข้อมูล ====================
 $sql = "SELECT 
     o.i_OrderID,
     o.c_OrderDate,
@@ -27,7 +25,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ==================== รวมผลรวมทั้งหมด ====================
 $total_quantity_all = 0;
 $total_price_all = 0;
 foreach ($orders as $order) {
@@ -35,7 +32,6 @@ foreach ($orders as $order) {
     $total_price_all += $order['total_price'];
 }
 
-// ==================== Pagination ====================
 $records_per_page = 5;
 $total_records = count($orders);
 $total_pages = ceil($total_records / $records_per_page);
@@ -57,14 +53,11 @@ $results = array_slice($orders, $start_index, $records_per_page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Dashboard</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <style>
@@ -77,7 +70,6 @@ $results = array_slice($orders, $start_index, $records_per_page);
         h1,
         h2 {
             color: #fff;
-            /* เปลี่ยนเป็นสีขาว */
             text-align: center;
             margin-bottom: 20px;
         }
@@ -144,8 +136,6 @@ $results = array_slice($orders, $start_index, $records_per_page);
 
     <div class="container p-4">
         <h1>ตรวจสอบยอดขายสินค้า</h1>
-
-        <!-- Table Card -->
         <div class="card">
             <div class="card-header">ยอดขายสินค้าทั้งหมด</div>
             <div class="card-body table-responsive">
@@ -183,8 +173,6 @@ $results = array_slice($orders, $start_index, $records_per_page);
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-
-                <!-- Pagination -->
                 <div class="card-footer">
                     <?php if ($total_pages > 1): ?>
                         <nav aria-label="Page navigation">
@@ -237,8 +225,6 @@ $results = array_slice($orders, $start_index, $records_per_page);
             </div>
         </div>
     </div>
-
-    <!-- สรุปยอดรวมทั้งหมด -->
     <div class="container mt-3">
         <h2>ตารางสรุปรายการขาย</h2>
         <div class="d-flex flex-row justify-content-evenly gap-2">

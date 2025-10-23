@@ -11,11 +11,9 @@ include_once 'include/elementMod.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ออกการขายสินค้า</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
 
@@ -43,8 +41,6 @@ include_once 'include/elementMod.php';
 
         <form id="orderForm" action="./crud/db_order_add.php" method="POST">
             <div class="card p-4">
-
-                <!-- ส่วนหัวใบสั่งซื้อ -->
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <label class="form-label">เลขที่การขายสินค้า (Order ID)</label>
@@ -71,10 +67,7 @@ include_once 'include/elementMod.php';
                         <?php dropdown_db($pdo, "i_ShipperID", "tb_shippers", "i_ShipperID", "c_ShipperName", ""); ?>
                     </div>
                 </div>
-
                 <hr>
-
-                <!-- รายการสินค้า -->
                 <h5>รายการสินค้า</h5>
                 <table class="table table-bordered text-center align-middle">
                     <thead class="table-light">
@@ -113,8 +106,6 @@ include_once 'include/elementMod.php';
             </div>
         </form>
     </div>
-
-    <!-- Modal ยืนยันการบันทึก -->
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg border-0">
@@ -133,8 +124,6 @@ include_once 'include/elementMod.php';
             </div>
         </div>
     </div>
-
-    <!-- Modal แจ้งเตือนเมื่อเกินจำนวนรายการสูงสุด -->
     <div class="modal fade" id="limitModal" tabindex="-1" aria-labelledby="limitModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg border-0">
@@ -158,8 +147,6 @@ include_once 'include/elementMod.php';
             </div>
         </div>
     </div>
-
-    <!-- Modal แจ้งเตือนเมื่อไม่สามารถลบแถวสุดท้ายได้ -->
     <div class="modal fade" id="minRowModal" tabindex="-1" aria-labelledby="minRowModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg border-0">
@@ -185,17 +172,13 @@ include_once 'include/elementMod.php';
     </div>
 
     <script>
-        // ส่งฟอร์มเมื่อกดปุ่มยืนยันใน Modal
         document.getElementById("confirmSaveBtn").addEventListener("click", function () {
             document.getElementById("orderForm").submit();
         });
-
-        // เพิ่มแถวสินค้า
         document.getElementById("addRowBtn").addEventListener("click", function () {
             const table = document.getElementById("productTable");
             const rowCount = table.rows.length;
             if (rowCount >= 10) {
-                // แสดง modal แจ้งเตือนแทน alert
                 const limitModalEl = document.getElementById('limitModal');
                 const limitModal = new bootstrap.Modal(limitModalEl);
                 limitModal.show();
@@ -207,8 +190,6 @@ include_once 'include/elementMod.php';
             newRow.querySelectorAll("select").forEach(sel => sel.selectedIndex = 0);
             table.appendChild(newRow);
         });
-
-        // ลบแถวสินค้า
         function removeRow(btn) {
             const table = document.getElementById("productTable");
             if (table.rows.length > 1) {

@@ -11,11 +11,9 @@ include_once 'include/elementMod.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>หน้าจอค้นหาสินค้า</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -58,15 +56,13 @@ include_once 'include/elementMod.php';
     <?php require_once 'include/navbar.php'; ?>
 
     <?php
-    // รับค่าตัวกรองจาก GET
     $param_pid = isset($_GET['cond_pid']) && $_GET['cond_pid'] !== '' ? $_GET['cond_pid'] : '';
     $param_price = isset($_GET['cond_price']) && $_GET['cond_price'] !== '' ? $_GET['cond_price'] : '';
 
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
-    $pageSize = 8; // จำนวนรายการต่อหน้า
+    $pageSize = 8; 
     $offset = ($page - 1) * $pageSize;
 
-    // นับจำนวนทั้งหมด
     $countSql = "SELECT COUNT(*) FROM tb_products WHERE 1=1";
     $countParams = [];
     if ($param_pid !== '') {
@@ -82,7 +78,6 @@ include_once 'include/elementMod.php';
     $totalRows = (int)$countStmt->fetchColumn();
     $totalPages = $totalRows ? (int)ceil($totalRows / $pageSize) : 1;
 
-    // ดึงข้อมูลสินค้า
     $sql = "SELECT i_ProductID as pid, c_ProductName as pname, i_Price as pprice 
             FROM tb_products WHERE 1=1";
     $params = [];
@@ -108,7 +103,6 @@ include_once 'include/elementMod.php';
     <div class="container p-4">
         <h1>หน้าจอค้นหาสินค้า</h1>
 
-        <!-- ฟิลเตอร์ค้นหา -->
         <div class="card mb-3">
             <div class="card-header">
                 <a class="btn" data-bs-toggle="collapse" href="#collapseFilter">ตัวกรองการค้นหา</a>
@@ -135,8 +129,6 @@ include_once 'include/elementMod.php';
                 </div>
             </div>
         </div>
-
-        <!-- ตารางสินค้า -->
         <div class="card">
             <div class="card-header">รายการสินค้าทั้งหมด</div>
             <div class="card-body">
@@ -171,8 +163,6 @@ include_once 'include/elementMod.php';
                     </tbody>
                 </table>
             </div>
-
-            <!-- Pagination -->
             <div class="card-footer">
                 <?php if ($totalPages > 1) : ?>
                     <nav aria-label="Page navigation">
